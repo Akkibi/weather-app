@@ -41,7 +41,7 @@ export default function ThreeDemo() {
 
     const ambientLight = new AmbientLight(0x101010);
     scene.add(ambientLight);
-
+    console.log("hello");
     const pointLight = new PointLight(0xffffff, 2, 1000, 1);
     pointLight.position.set(0, 200, 200);
     scene.add(pointLight);
