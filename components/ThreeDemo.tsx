@@ -37,7 +37,7 @@ export default function ThreeDemo() {
     // Create Planets
     const spheres: Planet[] = planetsArray.map((data) => {
       const sphere = new Planet(data);
-      scene.add(sphere.mesh);
+      scene.add(sphere.instance);
       return sphere;
     });
     console.log(planetsArray);
