@@ -43,7 +43,7 @@ export default function ThreeDemo() {
     console.log(planetsArray);
 
     function update(time: number) {
-      spheres.forEach((sphere) => sphere.update(time / 100 + 1000)); // Normalize time to seconds
+      spheres.forEach((sphere) => sphere.update(time / 75 + 1000)); // Normalize time to seconds
     }
 
     var clock = new THREE.Clock(true);

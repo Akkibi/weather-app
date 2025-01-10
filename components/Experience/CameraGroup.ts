@@ -16,33 +16,4 @@ export default class CameraGroup extends EventEmitter {
     this.instance = new THREE.Group();
     this.instance.add(this.camera.instance);
   }
-
-  // update instance position
-  updatePosition() {
-    if (this.transitioning === false) {
-      this.interpolatePosition();
-    } else {
-      this.setPositionToFocus();
-    }
-  }
-
-  subscribeToAnimateEvent() {
-    this.on("animate", () => this.updatePosition());
-  }
-
-  setFocus(object: THREE.Group | null) {
-    this.lastFocus = this.planetFocus;
-    this.planetFocus = object;
-  }
-
-  setPositionToFocus() {
-    if (this.planetFocus === null) return;
-    const targetPosition = new THREE.Vector3();
-    this.planetFocus.getWorldPosition(targetPosition);
-    this.instance.position.x = targetPosition.x;
-    this.instance.position.y = targetPosition.y;
-    this.position = targetPosition;
-  }
-
-  interpolatePosition() {}
 }

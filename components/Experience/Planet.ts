@@ -9,12 +9,13 @@ type SphereConfig = {
 };
 
 export default class Planet {
-  name: string;
-  size: number;
-  speed: number;
-  distance: number;
-  color: string;
-  mesh: THREE.Mesh;
+  public name: string;
+  public size: number;
+  public speed: number;
+  public distance: number;
+  public color: string;
+  private mesh: THREE.Mesh;
+  public instance: THREE.Group;
 
   constructor(config: SphereConfig) {
     this.name = config.name;
@@ -59,14 +60,16 @@ export default class Planet {
     this.mesh = new THREE.Mesh(geometry, material);
     const ajustedSize = this.size * 1.5 + 1.5;
     this.mesh.scale.set(ajustedSize, ajustedSize, ajustedSize);
-    // Set the initial position of the sphere
-    this.mesh.position.x = this.distance;
+    // Set the initial position of the sphere group
+    this.instance = new THREE.Group();
+    this.instance.add(this.mesh);
+    this.instance.position.x = this.distance;
   }
 
   update(time: number) {
     // Update the position to simulate rotation around the origin
     const angle = time * this.speed;
-    this.mesh.position.x = Math.cos(angle) * this.distance;
-    this.mesh.position.z = Math.sin(angle) * this.distance;
+    this.instance.position.x = Math.cos(angle) * this.distance;
+    this.instance.position.z = Math.sin(angle) * this.distance;
   }
 }
