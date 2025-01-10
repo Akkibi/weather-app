@@ -1,19 +1,14 @@
 import { ExpoWebGLRenderingContext, GLView } from "expo-gl";
-import { Renderer, TextureLoader } from "expo-three";
+import { TextureLoader, THREE } from "expo-three";
 import { useEffect } from "react";
-import {
-  AmbientLight,
-  BoxGeometry,
-  Fog,
-  GridHelper,
-  Mesh,
-  MeshNormalMaterial,
-  MeshStandardMaterial,
-  PerspectiveCamera,
-  PointLight,
-  Scene,
-  SpotLight,
-} from "three";
+import { BoxGeometry, Mesh, MeshNormalMaterial, SphereGeometry } from "three";
+import Renderer from "./Experience/Renderer";
+import Scene from "./Experience/Scene";
+import Camera from "./Experience/Camera";
+import CameraGroup from "./Experience/CameraGroup";
+import { EventEmitter } from "expo";
+import { planetsArray } from "./Experience/data";
+import Planet from "./Experience/Planet";
 
 export default function ThreeDemo() {
   let timeout: ReturnType<typeof requestAnimationFrame>;
@@ -24,51 +19,41 @@ export default function ThreeDemo() {
   }, []);
 
   const onContextCreate = async (gl: ExpoWebGLRenderingContext) => {
-    const { drawingBufferWidth: width, drawingBufferHeight: height } = gl;
-    const sceneColor = 0x6ad6f0;
-
-    // Create a WebGLRenderer without a DOM element
-    const renderer = new Renderer({ gl });
-    renderer.setSize(width, height);
-    renderer.setClearColor(sceneColor);
-
-    const camera = new PerspectiveCamera(70, width / height, 0.01, 1000);
-    camera.position.set(2, 5, 5);
-
+    const camera = new Camera(new THREE.Vector3(5, 5, 10));
+    const cameraGroup = new CameraGroup(camera);
     const scene = new Scene();
-    scene.fog = new Fog(sceneColor, 1, 10000);
-    scene.add(new GridHelper(10, 10));
+    scene.add(cameraGroup.get());
+    const renderer = new Renderer(gl);
+    renderer.get().render(scene.get(), camera.get());
 
-    const ambientLight = new AmbientLight(0x101010);
-    scene.add(ambientLight);
-    console.log("hello");
-    const pointLight = new PointLight(0xffffff, 2, 1000, 1);
-    pointLight.position.set(0, 200, 200);
-    scene.add(pointLight);
-
-    const spotLight = new SpotLight(0xffffff, 0.5);
-    spotLight.position.set(0, 500, 100);
-    spotLight.lookAt(scene.position);
-    scene.add(spotLight);
-
-    const geometry = new BoxGeometry(1, 1, 1);
+    // Create Sun
+    const geometry = new SphereGeometry(1, 32, 32);
     const material = new MeshNormalMaterial();
-    const cube = new Mesh(geometry, material);
+    const sun = new Mesh(geometry, material);
+    sun.scale.set(2, 2, 2);
+    sun.position.set(0, 0, 0);
+    scene.add(sun);
 
-    scene.add(cube);
+    // Create Planets
+    const spheres: Planet[] = planetsArray.map((data) => {
+      const sphere = new Planet(data);
+      scene.add(sphere.mesh);
+      return sphere;
+    });
+    console.log(planetsArray);
 
-    camera.lookAt(cube.position);
-
-    function update() {
-      cube.rotation.y += 0.05;
-      cube.rotation.x += 0.025;
+    function update(time: number) {
+      spheres.forEach((sphere) => sphere.update(time / 100 + 1000)); // Normalize time to seconds
     }
+
+    var clock = new THREE.Clock(true);
 
     // Setup an animation loop
     const render = () => {
+      clock.getDelta();
       timeout = requestAnimationFrame(render);
-      update();
-      renderer.render(scene, camera);
+      update(clock.elapsedTime);
+      renderer.render(scene.get(), camera.get());
       gl.endFrameEXP();
     };
     render();
