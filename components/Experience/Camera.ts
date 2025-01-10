@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { EventEmitter } from "./EventEmitter";
 
 export default class Camera extends EventEmitter {
-  perspectiveCamera: THREE.PerspectiveCamera;
+  instance: THREE.PerspectiveCamera;
   aspect: number;
 
   constructor(
@@ -21,7 +21,7 @@ export default class Camera extends EventEmitter {
     this.position = position;
 
     // Create the PerspectiveCamera
-    this.perspectiveCamera = new THREE.PerspectiveCamera(
+    this.instance = new THREE.PerspectiveCamera(
       this.fov,
       this.aspect,
       this.near,
@@ -29,8 +29,8 @@ export default class Camera extends EventEmitter {
     );
 
     // Set initial position
-    this.perspectiveCamera.position.copy(this.position);
-    this.perspectiveCamera.lookAt(5, 0, 0);
+    this.instance.position.copy(this.position);
+    this.instance.lookAt(5, 0, 0);
 
     // Subscribe to window resize event
     this.subscribeToResizeEvent();
@@ -51,17 +51,13 @@ export default class Camera extends EventEmitter {
     this.aspect = window.innerWidth / window.innerHeight;
 
     // Update the camera's aspect ratio and projection matrix
-    this.perspectiveCamera.aspect = this.aspect;
-    this.perspectiveCamera.updateProjectionMatrix();
-  }
-
-  get(): THREE.PerspectiveCamera {
-    return this.perspectiveCamera;
+    this.instance.aspect = this.aspect;
+    this.instance.updateProjectionMatrix();
   }
 
   updatePosition(position: THREE.Vector3) {
     this.position = position;
-    this.perspectiveCamera.position.copy(this.position);
-    this.perspectiveCamera.lookAt(0, 0, 0);
+    this.instance.position.copy(this.position);
+    this.instance.lookAt(0, 0, 0);
   }
 }

@@ -4,7 +4,7 @@ import { EventEmitter } from "./EventEmitter";
 import { easeExpoInOut } from "./utils";
 
 export default class CameraGroup extends EventEmitter {
-  private cameraGroup: THREE.Group;
+  public instance: THREE.Group;
   private position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   public planetFocus: THREE.Group | null = null;
   public lastFocus: THREE.Group | null = null;
@@ -13,15 +13,11 @@ export default class CameraGroup extends EventEmitter {
   constructor(private camera: Camera) {
     super();
     // put camera in a group
-    this.cameraGroup = new THREE.Group();
-    this.cameraGroup.add(this.camera.get());
+    this.instance = new THREE.Group();
+    this.instance.add(this.camera.instance);
   }
 
-  get() {
-    return this.cameraGroup;
-  }
-
-  // update cameraGroup position
+  // update instance position
   updatePosition() {
     if (this.transitioning === false) {
       this.interpolatePosition();
@@ -43,8 +39,8 @@ export default class CameraGroup extends EventEmitter {
     if (this.planetFocus === null) return;
     const targetPosition = new THREE.Vector3();
     this.planetFocus.getWorldPosition(targetPosition);
-    this.cameraGroup.position.x = targetPosition.x;
-    this.cameraGroup.position.y = targetPosition.y;
+    this.instance.position.x = targetPosition.x;
+    this.instance.position.y = targetPosition.y;
     this.position = targetPosition;
   }
 

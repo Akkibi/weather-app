@@ -1,3 +1,5 @@
+import { THREE } from "expo-three";
+
 export const planetsArray = [
   {
     name: "Azternae",
@@ -40,5 +42,28 @@ export const planetsArray = [
     speed: 2.62,
     distance: 8,
     color: "#00ffff",
+  },
+];
+
+export const pointsArray = [
+  {
+    name: "temperature",
+    position: new THREE.Vector3(1, 2, 0),
+  },
+  {
+    name: "humidity",
+    position: new THREE.Vector3(0, 0, 0),
+  },
+  {
+    name: "wind",
+    position: new THREE.Vector3(0, 0, 0),
+  },
+  {
+    name: "clouds",
+    position: new THREE.Vector3(0, 0, 0),
+  },
+  {
+    name: "pressure",
+    position: new THREE.Vector3(0, 0, 0),
   },
 ];

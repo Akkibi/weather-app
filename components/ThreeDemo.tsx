@@ -22,9 +22,9 @@ export default function ThreeDemo() {
     const camera = new Camera(new THREE.Vector3(5, 5, 10));
     const cameraGroup = new CameraGroup(camera);
     const scene = new Scene();
-    scene.add(cameraGroup.get());
+    scene.add(cameraGroup.instance);
     const renderer = new Renderer(gl);
-    renderer.get().render(scene.get(), camera.get());
+    renderer.render(scene.instance, camera.instance);
 
     // Create Sun
     const geometry = new SphereGeometry(1, 32, 32);
@@ -53,7 +53,7 @@ export default function ThreeDemo() {
       clock.getDelta();
       timeout = requestAnimationFrame(render);
       update(clock.elapsedTime);
-      renderer.render(scene.get(), camera.get());
+      renderer.render(scene.instance, camera.instance);
       gl.endFrameEXP();
     };
     render();
