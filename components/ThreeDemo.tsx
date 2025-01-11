@@ -9,6 +9,8 @@ import CameraGroup from "./Experience/CameraGroup";
 import { EventEmitter } from "expo";
 import { planetsArray } from "./Experience/data";
 import Planet from "./Experience/Planet";
+import Raycaster from "./Experience/Utils/Raycaster";
+import Sizes from "./Experience/Utils/Sizes";
 
 export default function ThreeDemo() {
   let timeout: ReturnType<typeof requestAnimationFrame>;
@@ -25,6 +27,8 @@ export default function ThreeDemo() {
     scene.add(cameraGroup.instance);
     const renderer = new Renderer(gl);
     renderer.render(scene.instance, camera.instance);
+    const sizes = new Sizes()
+    const raycaster = new Raycaster(sizes, camera, scene)
 
     // Create Sun
     const geometry = new SphereGeometry(1, 32, 32);

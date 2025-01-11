@@ -63,6 +63,7 @@ export default class Planet {
     // Set the initial position of the sphere group
     this.instance = new THREE.Group();
     this.instance.add(this.mesh);
+    this.instance.name = 'planet';
     this.instance.position.x = this.distance;
   }
 
