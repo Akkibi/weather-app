@@ -7,8 +7,6 @@ import Scene from "./Experience/Scene";
 import Camera from "./Experience/Camera";
 import CameraGroup from "./Experience/CameraGroup";
 import { EventEmitter } from "expo";
-import { planetsArray } from "./Experience/data";
-import Planet from "./Experience/Planet";
 import Raycaster from "./Experience/Utils/Raycaster";
 import Sizes from "./Experience/Utils/Sizes";
 
@@ -30,24 +28,8 @@ export default function ThreeDemo() {
     const sizes = new Sizes()
     const raycaster = new Raycaster(sizes, camera, scene)
 
-    // Create Sun
-    const geometry = new SphereGeometry(1, 32, 32);
-    const material = new MeshNormalMaterial();
-    const sun = new Mesh(geometry, material);
-    sun.scale.set(2, 2, 2);
-    sun.position.set(0, 0, 0);
-    scene.add(sun);
-
-    // Create Planets
-    const spheres: Planet[] = planetsArray.map((data) => {
-      const sphere = new Planet(data);
-      scene.add(sphere.instance);
-      return sphere;
-    });
-    console.log(planetsArray);
-
     function update(time: number) {
-      spheres.forEach((sphere) => sphere.update(time / 75 + 1000)); // Normalize time to seconds
+      scene.spheres.forEach((sphere) => sphere.update(time / 75 + 1000)); // Normalize time to seconds
     }
 
     var clock = new THREE.Clock(true);

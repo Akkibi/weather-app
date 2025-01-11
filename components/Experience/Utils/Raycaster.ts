@@ -35,11 +35,11 @@ export default class Raycaster extends EventEmitter {
 
       if(intersects.length)
       {
-          console.log('intersect: ', intersects[0]);
+          console.log('intersect: ', intersects);
           this.currentIntersect = intersects[0]
-      }
-      else
-      {
+        }
+        else
+        {
           this.currentIntersect = null
       }
     })
