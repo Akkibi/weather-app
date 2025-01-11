@@ -9,6 +9,7 @@ import CameraGroup from "./Experience/CameraGroup";
 import { EventEmitter } from "expo";
 import Raycaster from "./Experience/Utils/Raycaster";
 import Sizes from "./Experience/Utils/Sizes";
+import CameraOrigin from "./Experience/CameraOrigin";
 
 export default function ThreeDemo() {
   let timeout: ReturnType<typeof requestAnimationFrame>;
@@ -19,14 +20,16 @@ export default function ThreeDemo() {
   }, []);
 
   const onContextCreate = async (gl: ExpoWebGLRenderingContext) => {
+    const eventBus = new EventEmitter();
     const camera = new Camera(new THREE.Vector3(5, 5, 10));
     const cameraGroup = new CameraGroup(camera);
+    const cameraOrigin = new CameraOrigin(cameraGroup)
     const scene = new Scene();
-    scene.add(cameraGroup.instance);
+    scene.add(cameraOrigin.instance);
     const renderer = new Renderer(gl);
     renderer.render(scene.instance, camera.instance);
     const sizes = new Sizes()
-    const raycaster = new Raycaster(sizes, camera, scene)
+    const raycaster = new Raycaster(sizes, camera, scene, cameraOrigin)
 
     function update(time: number) {
       scene.spheres.forEach((sphere) => sphere.update(time / 75 + 1000)); // Normalize time to seconds

@@ -3,13 +3,13 @@ import { EventEmitter } from "./EventEmitter";
 import CameraGroup from "./CameraGroup";
 
 export default class CameraOrigin extends EventEmitter {
-  public planetFocus: THREE.Group | null = null;
-  public lastFocus: THREE.Group | null = null;
+  public planetFocus: THREE.Object3D | null = null;
+  public lastFocus: THREE.Object3D | null = null;
   private transitioning: boolean = false;
   public instance: THREE.Group;
   public position = new THREE.Vector3(0, 0, 0);
   // update instance position
-  constructor(private cameraGroup: CameraGroup) {
+  constructor(public cameraGroup: CameraGroup) {
     super();
     // put camera in a group
     this.instance = new THREE.Group();
@@ -28,15 +28,19 @@ export default class CameraOrigin extends EventEmitter {
   }
 
   subscribeToPlanetFocusEvent() {
-    this.on("planetFocus", (object: THREE.Group | null) =>
-      this.setFocus(object),
+    this.on("planetFocus", (object: THREE.Object3D | null) =>
+      console.log("on focus")
+      // this.setFocus(object),
     );
   }
 
-  setFocus(object: THREE.Group | null) {
+  setFocus(object: THREE.Object3D | null) {
+    console.log("on focus");
+
     this.lastFocus = this.planetFocus;
     this.planetFocus = object;
     this.transitioning = true;
+    this.setPositionToFocus()
   }
 
   setPositionToFocus() {

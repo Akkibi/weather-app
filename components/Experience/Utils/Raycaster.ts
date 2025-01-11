@@ -3,6 +3,7 @@ import { EventEmitter } from '../EventEmitter';
 import Sizes from './Sizes';
 import Camera from '../Camera';
 import Scene from '../Scene';
+import CameraOrigin from '../CameraOrigin';
 
 export default class Raycaster extends EventEmitter {
   raycaster: THREE.Raycaster;
@@ -11,9 +12,10 @@ export default class Raycaster extends EventEmitter {
   sizes: Sizes;
   camera: Camera;
   scene: Scene;
+  cameraOrigin: CameraOrigin;
 
 
-  constructor(sizes: Sizes, camera: Camera, scene: Scene) {
+  constructor(sizes: Sizes, camera: Camera, scene: Scene, cameraOrigin: CameraOrigin) {
     super();
 
     this.raycaster = new THREE.Raycaster();
@@ -22,6 +24,7 @@ export default class Raycaster extends EventEmitter {
     this.sizes = sizes;
     this.camera = camera
     this.scene = scene
+    this.cameraOrigin = cameraOrigin
 
     window.addEventListener('touchmove', (event) =>
       {
@@ -35,12 +38,18 @@ export default class Raycaster extends EventEmitter {
 
       if(intersects.length)
       {
-          console.log('intersect: ', intersects);
-          this.currentIntersect = intersects[0]
+        this.currentIntersect = intersects[0]
+        console.log('intersect : ', this.currentIntersect);
+
+        if (this.currentIntersect.object.parent?.name === "planet") {
+          console.log('planet');
+          // this.trigger('planetFocus')
+          this.cameraOrigin.setFocus(this.currentIntersect.object.parent)
         }
-        else
-        {
-          this.currentIntersect = null
+      }
+      else
+      {
+        this.currentIntersect = null
       }
     })
   }
