@@ -46,27 +46,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="modal"
-        options={{
-          title: "Modal",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="three"
         options={{
           title: "Three",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="rotate.3d.circle.fill" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="r3f"
-        options={{
-          title: "R3F",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="rotate.3d.circle.fill" color={color} />
           ),
