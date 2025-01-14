@@ -1,15 +1,25 @@
 import React from "react";
-import { useEffect } from "react";
 import { Text, View, StyleSheet, Dimensions, ScrollView } from "react-native";
+import usePlanetStore from '@/stores/usePlanetStore'
 
 let ScreenHeight = Dimensions.get("window").height;
 
+
+interface MeteoDetailProps {
+  isFocus: boolean;
+  planetData: string | null;
+}
+
 export default function MeteoDetail() {
+    const { isFocus, planetFocused } = usePlanetStore();
+
+    if (!isFocus) return null;
+
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.detail}>
-            <Text style={styles.text}>Temperature</Text>
+            <Text style={styles.text}>Température</Text>
           </View>
           <View style={styles.detail}>
             <Text style={styles.text}>Pression atmospherique</Text>

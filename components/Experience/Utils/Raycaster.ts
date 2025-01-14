@@ -4,6 +4,7 @@ import Sizes from './Sizes';
 import Camera from '../Camera';
 import Scene from '../Scene';
 import CameraOrigin from '../CameraOrigin';
+import usePlanetStore from '@/stores/usePlanetStore'
 
 export default class Raycaster extends EventEmitter {
   raycaster: THREE.Raycaster;
@@ -44,6 +45,7 @@ export default class Raycaster extends EventEmitter {
         if (this.currentIntersect.object.parent?.name === "planet") {
           console.log('planet');
           // this.trigger('planetFocus')
+          usePlanetStore.getState().setFocus(true);
           this.cameraOrigin.setFocus(this.currentIntersect.object.parent)
         }
       }
