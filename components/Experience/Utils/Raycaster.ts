@@ -41,11 +41,13 @@ export default class Raycaster extends EventEmitter {
       {
         this.currentIntersect = intersects[0]
         console.log('intersect : ', this.currentIntersect);
+        let name = this.currentIntersect.object.parent?.name;
 
-        if (this.currentIntersect.object.parent?.name === "planet") {
+        if (name !== "sun") {
           console.log('planet');
           // this.trigger('planetFocus')
           usePlanetStore.getState().setFocus(true);
+          usePlanetStore.getState().setPlanetFocused(name ?? "unknow");
           this.cameraOrigin.setFocus(this.currentIntersect.object.parent)
         }
       }

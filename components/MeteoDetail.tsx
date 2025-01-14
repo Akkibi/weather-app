@@ -19,7 +19,7 @@ export default function MeteoDetail() {
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.detail}>
-            <Text style={styles.text}>Température</Text>
+            <Text style={styles.text}>{planetFocused}</Text>
           </View>
           <View style={styles.detail}>
             <Text style={styles.text}>Pression atmospherique</Text>

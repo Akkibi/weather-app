@@ -24,7 +24,6 @@ export default class Scene {
 
     this.spheres = planetsArray.map((data) => {
       const sphere = new Planet(data);
-      sphere.name = 'planet';
       this.add(sphere.instance);
       return sphere;
     });
