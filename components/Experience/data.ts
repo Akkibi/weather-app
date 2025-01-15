@@ -60,7 +60,7 @@ export const planetsArray = [
 export const pointsArray = [
   {
     name: "temperature",
-    position: new THREE.Vector3(1, 2, 0),
+    position: new THREE.Vector3(1, 9, 2),
   },
   {
     name: "humidity",

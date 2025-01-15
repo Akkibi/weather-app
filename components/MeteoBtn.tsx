@@ -1,30 +1,46 @@
 import React from "react";
-import { Text, StyleSheet, Pressable } from "react-native";
+import { Text, StyleSheet, Pressable, DimensionValue } from "react-native";
 import useMeteoStore from '@/stores/useMeteoStore';
+import { THREE } from "expo-three";
+
+type Position = {
+  top?: number
+  left?: number
+  right?: number
+  bottom?: number
+}
 
 type Props = {
   title: string,
   category: string,
   isVisible: boolean,
-  // pos: {x: number, y: number}
+  position?: THREE.Vector3
 };
 
-export default function MeteoBtn({ title, category, isVisible }: Props) {
+export default function MeteoBtn({ title, category, isVisible, position }: Props) {
   const { selectedCategory, setCategory } = useMeteoStore();
 
   if (!isVisible) return null;
 
   const handlePress = () => {
     console.log("click");
-
     setCategory(category);
   };
+
+  const style = position
+  ? {
+      position: 'absolute' as const,
+      left: `${(position.x + 1) * 50}%` as DimensionValue,
+      top: `${(-position.y + 1) * 50}%` as DimensionValue,
+    }
+  : {};
 
   return (
     <Pressable
       onPress={handlePress}
       style={[
         styles.button,
+        style,
         selectedCategory === category && styles.selected
       ]}
     >
@@ -36,8 +52,6 @@ export default function MeteoBtn({ title, category, isVisible }: Props) {
 const styles = StyleSheet.create({
   button: {
     zIndex: 1000,
-    position: 'absolute',
-    top: '40%',
     padding: 8,
     borderRadius: 4,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
