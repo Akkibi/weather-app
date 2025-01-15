@@ -11,6 +11,7 @@ import {
   TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { Dimensions } from "react-native";
+import usePlanetStore from '@/stores/usePlanetStore'
 
 export default class Raycaster {
   raycaster: THREE.Raycaster;
@@ -60,10 +61,12 @@ export default class Raycaster {
 
     if (
       this.currentIntersect &&
-      this.currentIntersect.object.parent?.name === "planet"
+      this.currentIntersect.object.parent?.name != "sun"
     ) {
       const parent = this.currentIntersect.object.parent;
-      this.eventEmitter.trigger("planetFocus", [parent.userData]);
+      this.eventEmitter.trigger("planetFocus", [parent?.userData]);
+      usePlanetStore.getState().setFocus(true);
+      usePlanetStore.getState().setPlanetFocused(parent?.name ?? "unknow")
     } else {
       console.warn("no intersects");
     }
