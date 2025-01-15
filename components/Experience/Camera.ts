@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { EventEmitter } from "./EventEmitter";
 import Planet from "./Planet";
+import Sizes from "./Utils/Sizes";
 
 export default class Camera {
   instance: THREE.PerspectiveCamera;
@@ -8,6 +9,7 @@ export default class Camera {
 
   constructor(
     private eventEmitter: EventEmitter,
+    private sizes: Sizes,
     public position: THREE.Vector3 = new THREE.Vector3(0, 0, 13),
     public fov: number = 75,
     private near: number = 0.1,
@@ -15,7 +17,7 @@ export default class Camera {
     private distance: number = 10,
   ) {
     // Initialize camera properties
-    this.aspect = window.innerWidth / window.innerHeight;
+    this.aspect = this.sizes.width / this.sizes.height;
     this.fov = fov;
     this.near = near;
     this.far = far;
@@ -24,7 +26,7 @@ export default class Camera {
     // Create the PerspectiveCamera
     this.instance = new THREE.PerspectiveCamera(
       this.fov,
-      this.aspect,
+      0.5,
       this.near,
       this.far,
     );
@@ -33,29 +35,7 @@ export default class Camera {
     this.instance.position.copy(this.position);
     this.instance.lookAt(0, 0, 0);
 
-    // Subscribe to window resize event
-    this.subscribeToResizeEvent();
     this.subscribeToEvents();
-  }
-
-  subscribeToResizeEvent() {
-    console.log("eventEmitter", this.eventEmitter.on);
-    // Use the EventEmitter to subscribe to the window resize event
-    this.eventEmitter.on("windowResize", this.resize.bind(this));
-
-    // Add native window resize listener to trigger the event
-    window.addEventListener("resize", () => {
-      this.eventEmitter.trigger("windowResize");
-    });
-  }
-
-  resize() {
-    // Update the aspect ratio
-    this.aspect = window.innerWidth / window.innerHeight;
-
-    // Update the camera's aspect ratio and projection matrix
-    this.instance.aspect = this.aspect;
-    this.instance.updateProjectionMatrix();
   }
 
   updatePosition(position: THREE.Vector3) {

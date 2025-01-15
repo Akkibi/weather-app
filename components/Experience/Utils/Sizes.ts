@@ -1,27 +1,13 @@
-import { EventEmitter } from "../EventEmitter";
+import { ExpoWebGLRenderingContext } from "expo-gl";
 
-export default class Sizes extends EventEmitter {
+export default class Sizes {
   width: number;
   height: number;
-  pixelRatio: number;
-  constructor() {
-    super();
-
+  // pixelRatio: number;
+  constructor(gl: ExpoWebGLRenderingContext) {
     // Setup
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
-    this.pixelRatio = Math.min(window.devicePixelRatio, 2);
-    this.subscribeEvent();
-  }
-
-  subscribeEvent() {
-    // Resize event
-    window.addEventListener("resize", () => {
-      this.width = window.innerWidth;
-      this.height = window.innerHeight;
-      this.pixelRatio = Math.min(window.devicePixelRatio, 2);
-
-      this.trigger("resize");
-    });
+    this.width = gl.drawingBufferWidth;
+    this.height = gl.drawingBufferHeight;
+    // this.pixelRatio = Math.min(window.devicePixelRatio, 2);
   }
 }

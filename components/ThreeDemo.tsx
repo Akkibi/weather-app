@@ -31,14 +31,15 @@ export default function ThreeDemo() {
   }, []);
 
   const onContextCreate = async (gl: ExpoWebGLRenderingContext) => {
+    console.log(gl);
     const eventEmitter = new EventEmitter();
     const scene = new Scene();
-    const camera = new Camera(eventEmitter);
+    const sizes = new Sizes(gl);
+    const camera = new Camera(eventEmitter, sizes);
     const cameraGroup = new CameraGroup(eventEmitter, camera);
     const cameraOrigin = new CameraOrigin(eventEmitter, cameraGroup);
     scene.add(cameraOrigin.instance);
     const renderer = new Renderer(eventEmitter, gl);
-    const sizes = new Sizes();
     const raycaster = new Raycaster(
       eventEmitter,
       sizes,

@@ -10,6 +10,7 @@ import {
   GestureStateChangeEvent,
   TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
+import { Dimensions } from "react-native";
 
 export default class Raycaster {
   raycaster: THREE.Raycaster;
@@ -32,16 +33,9 @@ export default class Raycaster {
     this.scene = scene;
     this.cameraOrigin = cameraOrigin;
 
-    // window.addEventListener('touchmove', (event) =>
-    //   {
-    //       this.mouse.x = event.targetTouches[0].clientX / this.sizes.width * 2 - 1
-    //       this.mouse.y = - (event.targetTouches[0].clientY / this.sizes.height) * 2 + 1
-    //   })
-
     this.subscribeToEvent();
   }
   subscribeToEvent() {
-    // window.addEventListener("touchstart", () => console.log("touchstart"));
     this.eventEmitter.on(
       "click",
       (event: GestureStateChangeEvent<TapGestureHandlerEventPayload>) => {
@@ -53,8 +47,13 @@ export default class Raycaster {
   onPlanetSelect(
     event: GestureStateChangeEvent<TapGestureHandlerEventPayload>,
   ) {
-    this.mouse.x = (event.absoluteX / this.sizes.width) * 2 - 1;
-    this.mouse.y = -(event.absoluteY / this.sizes.height) * 2 + 1;
+    // console.error(
+    //   "raycast",
+    //   event.absoluteY / (Dimensions.get("window").height - 80),
+    // );
+    this.mouse.x = (event.absoluteX / Dimensions.get("window").width) * 2 - 1;
+    this.mouse.y =
+      -(event.absoluteY / (Dimensions.get("window").height - 80)) * 2 + 1;
     this.raycaster.setFromCamera(this.mouse, this.camera.instance);
     let intersects = this.raycaster.intersectObject(this.scene.instance);
     this.currentIntersect = intersects[0] ? intersects[0] : null;
