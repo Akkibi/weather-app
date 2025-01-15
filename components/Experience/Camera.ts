@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { EventEmitter } from "./EventEmitter";
-import Planet from "./Planet";
+import { EventEmitter } from "./Utils/EventEmitter";
+import Planet from "./World/Planet";
 import Sizes from "./Utils/Sizes";
 
 export default class Camera {

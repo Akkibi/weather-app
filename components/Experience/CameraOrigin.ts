@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import { EventEmitter } from "./EventEmitter";
+import { EventEmitter } from "./Utils/EventEmitter";
 import CameraGroup from "./CameraGroup";
-import Planet from "./Planet";
+import Planet from "./World/Planet";
 import {
   GestureUpdateEvent,
   PanGestureHandlerEventPayload,

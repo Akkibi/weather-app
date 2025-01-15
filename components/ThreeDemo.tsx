@@ -6,7 +6,7 @@ import Renderer from "./Experience/Renderer";
 import Scene from "./Experience/Scene";
 import Camera from "./Experience/Camera";
 import CameraGroup from "./Experience/CameraGroup";
-import { EventEmitter } from "./Experience/EventEmitter";
+import { EventEmitter } from "./Experience/Utils/EventEmitter";
 import Raycaster from "./Experience/Utils/Raycaster";
 import Sizes from "./Experience/Utils/Sizes";
 import CameraOrigin from "./Experience/CameraOrigin";

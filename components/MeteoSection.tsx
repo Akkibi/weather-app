@@ -4,7 +4,7 @@ import usePlanetStore from '@/stores/usePlanetStore'
 import useMeteoStore from '@/stores/useMeteoStore';
 import MeteoBtn from '@/components/MeteoBtn'
 import MeteoDetail from '@/components/MeteoDetail'
-import { planetsArray, pointsArray } from '@/components/Experience/data';
+import { planetsArray, pointsArray } from '@/components/Experience/Utils/data';
 
 let ScreenHeight = Dimensions.get("window").height;
 

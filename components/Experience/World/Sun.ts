@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { EventEmitter } from "../EventEmitter";
+import { EventEmitter } from "../Utils/EventEmitter";
 
 export default class Camera {
   geometry: THREE.SphereGeometry;

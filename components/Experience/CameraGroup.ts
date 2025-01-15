@@ -1,8 +1,8 @@
 import Camera from "./Camera";
 import * as THREE from "three";
-import { EventEmitter } from "./EventEmitter";
-import { easeExpoInOut } from "./utils";
-import Planet from "./Planet";
+import { EventEmitter } from "./Utils/EventEmitter";
+import { easeExpoInOut } from "./Utils/utils";
+import Planet from "./World/Planet";
 
 export default class CameraGroup {
   public instance: THREE.Group;

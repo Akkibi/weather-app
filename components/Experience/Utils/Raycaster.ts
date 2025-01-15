@@ -1,11 +1,11 @@
 import * as THREE from "three";
-import { EventEmitter } from "../EventEmitter";
+import { EventEmitter } from "./EventEmitter";
 import Sizes from "./Sizes";
 import Camera from "../Camera";
 import Scene from "../Scene";
 import CameraOrigin from "../CameraOrigin";
 import { TouchEvent } from "react";
-import Planet from "../Planet";
+import Planet from "../World/Planet";
 import {
   GestureStateChangeEvent,
   TapGestureHandlerEventPayload,

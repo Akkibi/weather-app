@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { planetsArray } from "./data";
-import Planet from "./Planet";
+import { planetsArray } from "./Utils/data";
+import Planet from "./World/Planet";
 import Sun from "./World/Sun";
 export default class Scene {
   instance: THREE.Scene;

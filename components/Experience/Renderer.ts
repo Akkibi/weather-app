@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { ExpoWebGLRenderingContext } from "expo-gl";
-import { EventEmitter } from "./EventEmitter";
+import { EventEmitter } from "./Utils/EventEmitter";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export default class Renderer {
