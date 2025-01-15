@@ -2,6 +2,7 @@ import { THREE } from "expo-three";
 
 type SphereConfig = {
   name: string;
+  id: number;
   size: number;
   speed: number;
   distance: number;
@@ -10,12 +11,14 @@ type SphereConfig = {
 
 export default class Planet {
   public name: string;
+  public id: number;
   public size: number;
   public speed: number;
   public distance: number;
   public color: string;
   private mesh: THREE.Mesh;
   public instance: THREE.Group;
+  public angle: number;
 
   constructor(config: SphereConfig) {
     this.name = config.name;
@@ -23,6 +26,8 @@ export default class Planet {
     this.speed = config.speed;
     this.distance = config.distance;
     this.color = config.color;
+    this.id = config.id;
+    this.angle = 0;
 
     // Create the geometry and material for the sphere
     const geometry = new THREE.SphereGeometry(this.size, 32, 32);
@@ -48,6 +53,7 @@ export default class Planet {
         }
       `,
     };
+
     const material = new THREE.ShaderMaterial({
       vertexShader: shader.vertex,
       fragmentShader: shader.fragment,
@@ -57,20 +63,22 @@ export default class Planet {
         u_cameraDirection: { value: new THREE.Vector3() },
       },
     });
+
     this.mesh = new THREE.Mesh(geometry, material);
     const ajustedSize = this.size * 1.5 + 1.5;
     this.mesh.scale.set(ajustedSize, ajustedSize, ajustedSize);
     // Set the initial position of the sphere group
     this.instance = new THREE.Group();
     this.instance.add(this.mesh);
-    this.instance.name = 'planet';
+    this.instance.name = "planet";
+    this.instance.userData = this;
     this.instance.position.x = this.distance;
   }
 
   update(time: number) {
     // Update the position to simulate rotation around the origin
-    const angle = time * this.speed;
-    this.instance.position.x = Math.cos(angle) * this.distance;
-    this.instance.position.z = Math.sin(angle) * this.distance;
+    this.angle = time * this.speed;
+    this.instance.position.x = Math.cos(this.angle) * this.distance;
+    this.instance.position.z = Math.sin(this.angle) * this.distance;
   }
 }

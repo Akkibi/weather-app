@@ -4,29 +4,32 @@ import Planet from "./Planet";
 import Sun from "./World/Sun";
 export default class Scene {
   instance: THREE.Scene;
-  spheres: Planet[]
+  planets: Planet[];
   ambientLight: THREE.AmbientLight;
   sun: Sun;
+  gridHelper: THREE.GridHelper;
   // grid: THREE.GridHelper;
   constructor(public objectArray: THREE.Object3D[] = []) {
     this.instance = new THREE.Scene();
     this.instance.background = new THREE.Color(0x101020);
     // this.grid = new THREE.GridHelper(10, 10);
     // this.instance.add(this.grid);
-
+    this.gridHelper = new THREE.GridHelper(100, 10);
     this.ambientLight = new THREE.AmbientLight(0x101020);
     this.instance.add(this.ambientLight);
 
-    this.sun = new Sun(new THREE.SphereGeometry(1, 32, 32), new THREE.MeshNormalMaterial())
-    this.sun.instance.scale.set(2, 2, 2);
+    this.sun = new Sun(
+      new THREE.SphereGeometry(1, 32, 32),
+      new THREE.MeshNormalMaterial(),
+    );
+    this.sun.instance.scale.set(2.5, 2.5, 2.5);
     this.sun.instance.position.set(0, 0, 0);
     this.add(this.sun.instance);
 
-    this.spheres = planetsArray.map((data) => {
-      const sphere = new Planet(data);
-      sphere.name = 'planet';
-      this.add(sphere.instance);
-      return sphere;
+    this.planets = planetsArray.map((data) => {
+      const planet = new Planet(data);
+      this.add(planet.instance);
+      return planet;
     });
   }
 

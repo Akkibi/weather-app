@@ -5,7 +5,10 @@ import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export default class Renderer extends EventEmitter {
   renderer: THREE.WebGLRenderer;
-  constructor(private gl: ExpoWebGLRenderingContext) {
+  constructor(
+    private eventEmitter: EventEmitter,
+    private gl: ExpoWebGLRenderingContext,
+  ) {
     super();
 
     this.gl = gl;
@@ -16,6 +19,7 @@ export default class Renderer extends EventEmitter {
       this.gl.drawingBufferHeight,
     );
     this.renderer.setClearColor(0x101020);
+    this.subscribeToResizeEvent();
   }
 
   get() {
@@ -24,7 +28,7 @@ export default class Renderer extends EventEmitter {
 
   subscribeToResizeEvent() {
     // Use the EventEmitter to subscribe to the window resize event
-    this.on("windowResize", this.resize.bind(this));
+    this.eventEmitter.on("windowResize", this.resize.bind(this));
   }
 
   resize() {

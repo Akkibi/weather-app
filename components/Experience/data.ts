@@ -2,13 +2,16 @@ import { THREE } from "expo-three";
 
 export const planetsArray = [
   {
+    id: 1,
     name: "Azternae",
     size: 2,
     speed: 2,
     distance: 5,
+
     color: "#ff0000",
   },
   {
+    id: 2,
     name: "Alcyoneus",
     size: 3,
     speed: 2.91,
@@ -16,6 +19,7 @@ export const planetsArray = [
     color: "#0000ff",
   },
   {
+    id: 3,
     name: "Almops",
     size: 2,
     speed: 1.62,
@@ -23,6 +27,7 @@ export const planetsArray = [
     color: "#00ff00",
   },
   {
+    id: 4,
     name: "Aloadae",
     size: 1,
     speed: 1.111,
@@ -30,6 +35,7 @@ export const planetsArray = [
     color: "#ffff00",
   },
   {
+    id: 5,
     name: "Ares",
     size: 2.5,
     speed: 2.48,
@@ -37,6 +43,7 @@ export const planetsArray = [
     color: "#ff00ff",
   },
   {
+    id: 6,
     name: "Catoblepas",
     size: 2.5,
     speed: 2.62,
