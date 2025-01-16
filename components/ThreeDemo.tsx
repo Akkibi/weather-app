@@ -16,6 +16,7 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
+import MeteoDetail from "@/components/MeteoSection";
 
 export default function ThreeDemo() {
   let timeout: ReturnType<typeof requestAnimationFrame>;
@@ -119,6 +120,7 @@ export default function ThreeDemo() {
         >
           <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
+        <MeteoDetail />
       </View>
     </GestureHandlerRootView>
   );

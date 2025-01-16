@@ -1,23 +1,28 @@
 import React from "react";
 import { Text, StyleSheet, Pressable, DimensionValue } from "react-native";
-import useMeteoStore from '@/stores/useMeteoStore';
+import useMeteoStore from "@/stores/useMeteoStore";
 import { THREE } from "expo-three";
 
 type Position = {
-  top?: number
-  left?: number
-  right?: number
-  bottom?: number
-}
-
-type Props = {
-  title: string,
-  category: string,
-  isVisible: boolean,
-  position?: THREE.Vector3
+  top?: number;
+  left?: number;
+  right?: number;
+  bottom?: number;
 };
 
-export default function MeteoBtn({ title, category, isVisible, position }: Props) {
+type Props = {
+  title: string;
+  category: string;
+  isVisible: boolean;
+  position?: THREE.Vector3;
+};
+
+export default function MeteoBtn({
+  title,
+  category,
+  isVisible,
+  position,
+}: Props) {
   const { selectedCategory, setCategory } = useMeteoStore();
 
   if (!isVisible) return null;
@@ -28,12 +33,12 @@ export default function MeteoBtn({ title, category, isVisible, position }: Props
   };
 
   const style = position
-  ? {
-      position: 'absolute' as const,
-      left: `${(position.x + 1) * 50}%` as DimensionValue,
-      top: `${(-position.y + 1) * 50}%` as DimensionValue,
-    }
-  : {};
+    ? {
+        position: "absolute" as const,
+        left: `${(position.x + 1) * 50}%` as DimensionValue,
+        top: `${(-position.y + 1) * 50}%` as DimensionValue,
+      }
+    : {};
 
   return (
     <Pressable
@@ -41,7 +46,7 @@ export default function MeteoBtn({ title, category, isVisible, position }: Props
       style={[
         styles.button,
         style,
-        selectedCategory === category && styles.selected
+        selectedCategory === category && styles.selected,
       ]}
     >
       <Text style={styles.text}>{title}</Text>
@@ -54,12 +59,13 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     padding: 8,
     borderRadius: 4,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    position: "absolute",
   },
   selected: {
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   text: {
-    color: 'white',
-  }
+    color: "white",
+  },
 });
