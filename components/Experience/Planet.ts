@@ -49,7 +49,7 @@ export default class Planet {
       fragment: `
         varying vec3 v_normal;
         void main() {
-          gl_FragColor = vec4(v_normal * 0.5 + 0.5, 1.0);
+          gl_FragColor = vec4(v_normal, 1.0);
         }
       `,
     };
@@ -60,7 +60,7 @@ export default class Planet {
       uniforms: {
         u_time: { value: 0 },
         u_color: { value: new THREE.Color(this.color) },
-        u_cameraDirection: { value: new THREE.Vector3() },
+        u_cameraDirection: { value: new THREE.Vector3(0, 0, 0) },
       },
     });
 

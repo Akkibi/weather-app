@@ -33,9 +33,9 @@ export default function ThreeDemo() {
   const onContextCreate = async (gl: ExpoWebGLRenderingContext) => {
     console.log(gl);
     const eventEmitter = new EventEmitter();
-    const scene = new Scene();
     const sizes = new Sizes(gl);
     const camera = new Camera(eventEmitter, sizes);
+    const scene = new Scene(eventEmitter, camera);
     const cameraGroup = new CameraGroup(eventEmitter, camera);
     const cameraOrigin = new CameraOrigin(eventEmitter, cameraGroup);
     scene.add(cameraOrigin.instance);
@@ -55,7 +55,7 @@ export default function ThreeDemo() {
         sphere.update(time / 75 + 1000);
         // Normalize time to seconds
       });
-      eventEmitter.trigger("animate");
+      eventEmitter.trigger("animate", [time]);
     }
 
     var clock = new THREE.Clock(true);
@@ -79,15 +79,15 @@ export default function ThreeDemo() {
     dragGesture
       .runOnJS(true)
       .onStart((_e) => {
-        console.log("onDragStart", _e);
+        // console.log("onDragStart", _e);
         eventEmitter.trigger("touchStart", [_e]);
       })
       .onUpdate((_e) => {
-        console.log("onDragMove", _e);
+        // console.log("onDragMove", _e);
         eventEmitter.trigger("touchMove", [_e]);
       })
       .onEnd((_e) => {
-        console.log("onDragEnd", _e);
+        // console.log("onDragEnd", _e);
         eventEmitter.trigger("touchEnd", [_e]);
       });
 
@@ -101,10 +101,14 @@ export default function ThreeDemo() {
   const singleTap = Gesture.Tap().runOnJS(true);
   const dragGesture = Gesture.Pan().runOnJS(true);
 
-  const taps = Gesture.Race(dragGesture, singleTap);
+  const taps = Gesture.Race(singleTap, dragGesture);
 
   return (
     <GestureHandlerRootView style={styles.gestureContainer}>
+      {/* <View style={styles.container}>
+        <InfoButton eventEmitter={eventEmitter}>Hello there</InfoButton>
+        <InfoButton eventEmitter={eventEmitter}>Hello there</InfoButton>
+      </View> */}
       <View style={styles.container}>
         <GestureDetector gesture={taps}>
           <GLView style={{ flex: 1 }} onContextCreate={onContextCreate} />
@@ -127,10 +131,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   container: {
-    flex: 1,
+    position: "absolute",
     height: "100%",
     width: "100%",
-    backgroundColor: "#fff",
   },
   header: {
     height: 50,

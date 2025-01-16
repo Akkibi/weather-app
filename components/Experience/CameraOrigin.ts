@@ -6,13 +6,16 @@ import {
   GestureUpdateEvent,
   PanGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
+import { Dimensions } from "react-native";
+import { easeExpoInOut } from "./utils";
 
 export default class CameraOrigin {
   public planetFocus: Planet | null = null;
   public lastFocus: Planet | null = null;
   private transitioningTo: boolean | null = null;
   public instance: THREE.Group;
-  private startScrollPosition: number = 0;
+
+  // scroll
   private scrollAmount: number = 0;
   private isScrollMomentum: boolean = false;
 
@@ -20,7 +23,6 @@ export default class CameraOrigin {
   private startTime: number = 0;
   private duration: number = 1000;
   private angle: number = 0;
-  private distance: number = 5;
 
   constructor(
     private eventEmitter: EventEmitter,
@@ -55,7 +57,6 @@ export default class CameraOrigin {
       "touchEnd",
       (event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
         this.endScrollRotation(event);
-        console.error("end scroll");
       },
     );
   }
@@ -67,17 +68,13 @@ export default class CameraOrigin {
       this.interpolateToDefault();
     } else if (this.planetFocus !== null) {
       this.setRotationToFocus();
-      // this.cameraGroup.instance.position.x = this.planetFocus.distance;
     } else if (this.isScrollMomentum) {
-      // console.error(this.planetFocus != null);
       this.updateScrollMomentum();
-      // this.cameraGroup.instance.position.x = 5;
     }
   }
 
   getMousePosition(event: GestureUpdateEvent<PanGestureHandlerEventPayload>) {
     this.isScrollMomentum = false;
-    this.startScrollPosition = event.absoluteY;
   }
 
   setRotationToScroll(
@@ -85,7 +82,8 @@ export default class CameraOrigin {
   ) {
     if (this.planetFocus !== null) return;
     this.isScrollMomentum = false;
-    this.scrollAmount = (event.absoluteY - this.startScrollPosition) * 0.0002;
+    // this.scrollAmount = (event.absoluteY - this.startScrollPosition) * 0.0002;
+    this.scrollAmount = event.velocityY * 0.000025;
     this.instance.rotation.y += this.scrollAmount;
     this.angle = this.instance.rotation.y;
   }
@@ -106,10 +104,12 @@ export default class CameraOrigin {
   }
 
   setFocus(planet: Planet | null) {
+    if (planet === this.planetFocus) return;
     if (this.transitioningTo !== null) return;
     this.lastFocus = this.planetFocus;
     this.planetFocus = planet;
     this.transitioningTo = this.planetFocus ? true : false;
+    this.cameraGroup.isFocused = this.planetFocus ? true : false;
     this.isScrollMomentum = false;
     this.startTime = performance.now();
   }
@@ -123,13 +123,14 @@ export default class CameraOrigin {
   interpolateToDefault() {
     const elapsedTime = performance.now() - this.startTime;
     const progress = Math.max((this.duration - elapsedTime) / this.duration, 0);
-    const easedProgress = this.easeExpoInOut(progress);
+    const easedProgress = easeExpoInOut(progress);
     if (this.lastFocus && progress !== 0) {
       this.eventEmitter.trigger("interpolateToFocus", [
         easedProgress,
         this.lastFocus,
       ]);
     } else {
+      this.eventEmitter.trigger("resetCameraRotation");
       // console.error("end transitioning back");
       this.transitioningTo = null;
     }
@@ -138,7 +139,7 @@ export default class CameraOrigin {
   interpolateToFocus() {
     const elapsedTime = performance.now() - this.startTime;
     const progress = Math.min(elapsedTime / this.duration, 1);
-    const easedProgress = this.easeExpoInOut(progress);
+    const easedProgress = easeExpoInOut(progress);
 
     if (this.planetFocus && progress !== 1) {
       this.instance.rotation.y =
@@ -146,20 +147,16 @@ export default class CameraOrigin {
         ((-this.planetFocus.angle % (Math.PI * 2)) -
           (this.angle % (Math.PI * 2))) *
           easedProgress;
+
       this.eventEmitter.trigger("interpolateToFocus", [
         easedProgress,
         this.planetFocus,
       ]);
     } else {
+      // this.eventEmitter.trigger("resetCameraRotation");
       // console.error("remove transition", progress, elapsedTime);
       this.transitioningTo = null;
       this.angle = this.instance.rotation.y;
     }
-  }
-
-  easeExpoInOut(t: number): number {
-    return t < 0.5
-      ? Math.pow(2, 10 * (t * 2 - 1)) / 2
-      : (2 - Math.pow(2, -10 * (t * 2 - 1))) / 2;
   }
 }
