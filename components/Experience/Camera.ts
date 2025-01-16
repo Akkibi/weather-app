@@ -10,7 +10,7 @@ export default class Camera {
   constructor(
     private eventEmitter: EventEmitter,
     private sizes: Sizes,
-    public position: THREE.Vector3 = new THREE.Vector3(0, 0, 13),
+    public position: THREE.Vector3 = new THREE.Vector3(0, 0, 14),
     public fov: number = 75,
     private near: number = 0.1,
     private far: number = 100,
@@ -54,7 +54,7 @@ export default class Camera {
   }
 
   gotoPosition(progress: number, planet: Planet) {
-    this.distance = 3 + 10 * (1 - progress);
+    this.distance = 2 + 12 * (1 - progress);
     this.instance.position.z = this.distance;
   }
 }

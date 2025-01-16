@@ -53,8 +53,7 @@ export default class Raycaster {
     //   event.absoluteY / (Dimensions.get("window").height - 80),
     // );
     this.mouse.x = (event.absoluteX / Dimensions.get("window").width) * 2 - 1;
-    this.mouse.y =
-      -(event.absoluteY / (Dimensions.get("window").height - 80)) * 2 + 1;
+    this.mouse.y = -(event.absoluteY / Dimensions.get("window").height) * 2 + 1;
     this.raycaster.setFromCamera(this.mouse, this.camera.instance);
     let intersects = this.raycaster.intersectObject(this.scene.instance);
     this.currentIntersect = intersects[0] ? intersects[0] : null;
