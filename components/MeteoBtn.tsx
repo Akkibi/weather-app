@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     position: "absolute",
+    top: "50%"
   },
   selected: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",

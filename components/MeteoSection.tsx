@@ -29,9 +29,7 @@ export default function MeteoSection() {
     (cat) => cat.category !== selectedCategory,
   );
 
-  const currentPlanet = planetsArray.find(
-    (planet) => planet.name === planetFocused,
-  );
+  const currentPlanet = planetFocused;
 
   const handleReturn = () => {
     setCategory(null);
@@ -49,13 +47,13 @@ export default function MeteoSection() {
 
               <MeteoDetail
                 category={selectedCategory}
-                planetData={currentPlanet}
+                planetData={currentPlanet ?? undefined}
               />
 
               {otherCategories.map((cat) => (
                 <MeteoDetail
                   category={cat.category}
-                  planetData={currentPlanet}
+                  planetData={currentPlanet ?? undefined}
                 />
               ))}
             </>

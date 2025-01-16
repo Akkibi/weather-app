@@ -65,7 +65,7 @@ export default class Raycaster {
       const parent = this.currentIntersect.object.parent;
       this.eventEmitter.trigger("planetFocus", [parent?.userData]);
       usePlanetStore.getState().setFocus(true);
-      usePlanetStore.getState().setPlanetFocused(parent?.name ?? "unknow");
+      usePlanetStore.getState().setPlanetFocused(parent?.userData as Planet);
     } else {
       console.warn("no intersects");
     }

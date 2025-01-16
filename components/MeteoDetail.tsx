@@ -1,20 +1,13 @@
 import React from "react";
 import { Text, View, StyleSheet, Dimensions } from "react-native";
 import usePlanetStore from "@/stores/usePlanetStore";
+import Planet from "./Experience/World/Planet";
 
 let ScreenHeight = Dimensions.get("window").height;
 
 interface MeteoDetailProps {
   category: string;
-  planetData?: {
-    name: string;
-    size: number;
-    speed: number;
-    distance: number;
-    minTemperature: number;
-    maxTemperature: number;
-    color: string;
-  };
+  planetData?: Planet
 }
 
 export default function MeteoSection({ category, planetData }: MeteoDetailProps) {

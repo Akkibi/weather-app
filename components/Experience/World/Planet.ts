@@ -1,6 +1,8 @@
 import { THREE } from "expo-three";
 
 type SphereConfig = {
+  maxTemperature: any;
+  minTemperature: any;
   name: string;
   id: number;
   size: number;
@@ -19,6 +21,8 @@ export default class Planet {
   private mesh: THREE.Mesh;
   public instance: THREE.Group;
   public angle: number;
+  minTemperature: any;
+  maxTemperature: any;
 
   constructor(config: SphereConfig) {
     this.name = config.name;
@@ -28,6 +32,8 @@ export default class Planet {
     this.color = config.color;
     this.id = config.id;
     this.angle = 0;
+    this.minTemperature = config.minTemperature
+    this.maxTemperature = config.maxTemperature
 
     // Create the geometry and material for the sphere
     const geometry = new THREE.SphereGeometry(this.size, 32, 32);
