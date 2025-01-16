@@ -7,7 +7,7 @@ import {
   PanGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { Dimensions } from "react-native";
-import { easeExpoInOut } from "./utils";
+import { easeExpoInOut } from "./Utils/utils";
 
 export default class CameraOrigin {
   public planetFocus: Planet | null = null;

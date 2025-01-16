@@ -3,7 +3,7 @@ import { planetsArray } from "./Utils/data";
 import Planet from "./World/Planet";
 import Sun from "./World/Sun";
 import { opacity } from "react-native-reanimated/lib/typescript/Colors";
-import { EventEmitter } from "./EventEmitter";
+import { EventEmitter } from "./Utils/EventEmitter";
 import Camera from "./Camera";
 
 export default class Scene {
