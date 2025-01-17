@@ -54,8 +54,11 @@ export default function MeteoSection({ category, planetData }: MeteoDetailProps)
     if (item.value === null) {
       return (
         <View key={item.id} style={styles.detail}>
-          <Text style={styles.categoryText}>
+          <Text style={styles.dataLabel}>
             {item.label} data unavailable
+          </Text>
+          <Text style={styles.dataValue}>
+            data unavailable
           </Text>
         </View>
       );
@@ -63,8 +66,11 @@ export default function MeteoSection({ category, planetData }: MeteoDetailProps)
 
     return (
       <View key={item.id} style={styles.detail}>
-        <Text style={styles.dataText}>
-          {item.label}: {item.value}{item.unit || ''}
+        <Text style={styles.dataLabel}>
+          {item.label}
+        </Text>
+        <Text style={styles.dataValue}>
+          {item.value}
         </Text>
       </View>
     );
@@ -86,15 +92,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     minHeight: (ScreenHeight - 64),
     width: "100%",
+    gap: 4,
+    paddingVertical: 64,
+    paddingHorizontal: 32,
+    backgroundColor: "rgba(0, 0, 0, 0.25)"
   },
-  categoryText: {
+  dataLabel: {
     color: "white",
-    fontSize: 18,
-    marginBottom: 10,
-    textTransform: "capitalize",
+    fontSize: 20,
+    fontWeight: "500",
+    letterSpacing: 10,
+    lineHeight: 29
   },
-  dataText: {
+  dataValue: {
     color: "white",
-    fontSize: 16,
+    fontSize: 52,
+    fontWeight: "600"
   },
 });
