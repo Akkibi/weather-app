@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, Dimensions } from "react-native";
+import { Text, View, StyleSheet, Dimensions, FlatList, ScrollView } from "react-native";
 import usePlanetStore from "@/stores/usePlanetStore";
 import Planet from "./Experience/World/Planet";
 
@@ -7,7 +7,14 @@ let ScreenHeight = Dimensions.get("window").height;
 
 interface MeteoDetailProps {
   category: string;
-  planetData?: Planet
+  planetData?: Planet;
+}
+
+interface MeteoData {
+  id: string;
+  label: string;
+  value: string | number | null;
+  unit?: string;
 }
 
 export default function MeteoSection({ category, planetData }: MeteoDetailProps) {
@@ -15,60 +22,86 @@ export default function MeteoSection({ category, planetData }: MeteoDetailProps)
 
   if (!isFocus || !planetData) return null;
 
-  return (
-    <View style={styles.detail}>
-      <Text style={styles.categoryText}>{category}</Text>
-      {category === "temperature" && (
-        <View style={styles.temperatureContainer}>
-          <Text style={styles.temperatureText}>
-            Min Temperature: {planetData.minTemperature}°C
-          </Text>
-          <Text style={styles.temperatureText}>
-            Max Temperature: {planetData.maxTemperature}°C
+  const categoryData = [
+    {
+      id: "min-temp",
+      label: "Min Temperature",
+      value: planetData.minTemperature,
+      unit: "°C"
+    },
+    {
+      id: "max-temp",
+      label: "Max Temperature",
+      value: planetData.maxTemperature,
+      unit: "°C"
+    },
+    {
+      id: "humidity",
+      label: "Humidity",
+      value: null
+    },
+    {
+      id: "wind",
+      label: "Wind Speed",
+      value: null
+    },
+    {
+      id: "cloud",
+      label: "Cloud Coverage",
+      value: null
+    },
+    {
+      id: "pressure",
+      label: "Atmospheric Pressure",
+      value: null
+    }
+
+  ]
+
+  const renderItem = ({ item }: { item: MeteoData }) => {
+    if (item.value === null) {
+      return (
+        <View key={item.id} style={styles.detail}>
+          <Text style={styles.categoryText}>
+            {item.label} data unavailable
           </Text>
         </View>
-      )}
-      {category === "humidity" && (
-        <Text style={styles.categoryText}>humidity data unavailable.</Text>
-      )}
-      {category === "wind" && (
-        <Text style={styles.categoryText}>wind data unavailable.</Text>
-      )}
-      {category === "clouds" && (
-        <Text style={styles.categoryText}>clouds data unavailable.</Text>
-      )}
-      {category === "pressure" && (
-        <Text style={styles.categoryText}>Pressure data unavailable.</Text>
-      )}
+      );
+    }
+
+    return (
+      <View key={item.id} style={styles.detail}>
+        <Text style={styles.dataText}>
+          {item.label}: {item.value}{item.unit || ''}
+        </Text>
+      </View>
+    );
+  };
+
+  const selectedCategory = categoryData.find(item => item.id === category);
+
+  return (
+    <View >
+      {selectedCategory && renderItem({ item: selectedCategory })}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    zIndex: 50,
-    position: "absolute",
-    left: 0,
-    right: 0,
-    height: ScreenHeight,
-  },
   detail: {
+    flex: 1,
     display: "flex",
     justifyContent: "center",
-    minHeight: ScreenHeight,
+    minHeight: (ScreenHeight - 64),
     width: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    padding: 20,
   },
   categoryText: {
     color: "white",
     fontSize: 18,
     marginBottom: 10,
+    textTransform: "capitalize",
   },
-  temperatureContainer: {
-    marginTop: 10,
-  },
-  temperatureText: {
+  dataText: {
     color: "white",
     fontSize: 16,
   },

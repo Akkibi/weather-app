@@ -39,12 +39,11 @@ export default function MeteoSection() {
     <>
       {selectedCategory && (
         <View style={styles.container}>
-          <ScrollView contentContainerStyle={styles.scrollContent}>
+          <Pressable onPress={handleReturn} style={[styles.backButton]}>
+            <Text style={styles.text}>Back</Text>
+          </Pressable>
+          <ScrollView style={styles.scrollContent}>
             <>
-              <Pressable onPress={handleReturn} style={[styles.backButton]}>
-                <Text style={styles.text}>Back</Text>
-              </Pressable>
-
               <MeteoDetail
                 category={selectedCategory}
                 planetData={currentPlanet ?? undefined}
@@ -69,7 +68,6 @@ export default function MeteoSection() {
             isVisible={true}
           />
         ))}
-      {/* </View> */}
     </>
   );
 }
@@ -97,8 +95,11 @@ const styles = StyleSheet.create({
   backButton: {
     zIndex: 100,
     position: "fixed",
-    top: 60,
-    left: 30,
+    top: (ScreenHeight - 60),
+    left: 0,
+    width: "100%",
+    padding: 16,
+    backgroundColor: "white"
   },
   otherCategories: {
     marginTop: 20,
