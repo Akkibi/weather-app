@@ -50,17 +50,10 @@ export default function MeteoSection() {
 
   const currentPlanet = planetFocused;
 
-  const handleReturn = () => {
-    setCategory(null);
-  };
-
   return (
     <>
       {selectedCategory && (
         <View style={styles.container}>
-          <Pressable onPress={handleReturn} style={[styles.backButton]}>
-            <Text style={styles.text}>Back</Text>
-          </Pressable>
           <ScrollView style={styles.scrollContent}>
             <>
               <MeteoDetail
