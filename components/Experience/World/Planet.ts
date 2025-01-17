@@ -1,6 +1,11 @@
 import { THREE } from "expo-three";
 
 type SphereConfig = {
+  military: any;
+  context: any;
+  meteorological: any;
+  atmosphericConditions: any;
+  characteristics: any;
   maxTemperature: any;
   minTemperature: any;
   name: string;
@@ -9,6 +14,49 @@ type SphereConfig = {
   speed: number;
   distance: number;
   color: string;
+};
+
+type Characteristics = {
+  surfaceArea: string;
+  volume: string;
+  mass: string;
+  surfaceGravity: string;
+  shape: string;
+};
+
+type AtmosphericConditions = {
+  density: string;
+  scaleHeight: string;
+  averageMolarMass: string;
+  composition: {
+    [key: string]: string;
+  };
+};
+
+type Meteorological = {
+  temperatureRange: string;
+  winds: string;
+  sunlightHours: string;
+  brightness: string;
+  forecast: string;
+};
+
+type Context = {
+  political: string;
+  health: string;
+  technology: string;
+};
+
+type Military = {
+  population: string;
+  hairDensity: {
+    face: string;
+    body: string;
+  };
+  animalSpecies: number;
+  chemicalComposition: {
+    [key: string]: string;
+  };
 };
 
 export default class Planet {
@@ -21,8 +69,14 @@ export default class Planet {
   private mesh: THREE.Mesh;
   public instance: THREE.Group;
   public angle: number;
-  minTemperature: any;
-  maxTemperature: any;
+  public minTemperature: number;
+  public maxTemperature: number;
+  public characteristics: Characteristics;
+  public atmosphericConditions: AtmosphericConditions;
+  public meteorological: Meteorological;
+  public context: Context;
+  public military: Military;
+
 
   constructor(config: SphereConfig) {
     this.name = config.name;
@@ -34,6 +88,11 @@ export default class Planet {
     this.angle = 0;
     this.minTemperature = config.minTemperature
     this.maxTemperature = config.maxTemperature
+    this.characteristics = config.characteristics;
+    this.atmosphericConditions = config.atmosphericConditions;
+    this.meteorological = config.meteorological;
+    this.context = config.context;
+    this.military = config.military;
 
     // Create the geometry and material for the sphere
     const geometry = new THREE.SphereGeometry(this.size, 32, 32);

@@ -24,38 +24,30 @@ export default function MeteoSection({ category, planetData }: MeteoDetailProps)
 
   const categoryData = [
     {
-      id: "min-temp",
-      label: "Min Temperature",
-      value: planetData.minTemperature,
-      unit: "°C"
+      id: "characteristics",
+      label: "Surface Area",
+      value: planetData.characteristics.surfaceArea,
     },
     {
-      id: "max-temp",
-      label: "Max Temperature",
-      value: planetData.maxTemperature,
-      unit: "°C"
+      id: "atmosphericConditions",
+      label: "Atmospheric Conditions",
+      value: planetData.atmosphericConditions.averageMolarMass,
     },
     {
-      id: "humidity",
-      label: "Humidity",
-      value: null
+      id: "meteorological",
+      label: "Meteorological",
+      value: planetData.meteorological.temperatureRange
     },
     {
-      id: "wind",
-      label: "Wind Speed",
-      value: null
+      id: "context",
+      label: "Context",
+      value: planetData.context.political
     },
     {
-      id: "cloud",
-      label: "Cloud Coverage",
-      value: null
+      id: "military",
+      label: "Military",
+      value: planetData.military.population
     },
-    {
-      id: "pressure",
-      label: "Atmospheric Pressure",
-      value: null
-    }
-
   ]
 
   const renderItem = ({ item }: { item: MeteoData }) => {

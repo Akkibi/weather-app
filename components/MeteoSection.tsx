@@ -21,12 +21,31 @@ export default function MeteoSection() {
 
   if (!isFocus) return null;
 
-  const categories = pointsArray.map((point) => ({
-    category: point.name,
-  }));
+  const categories = [
+    {
+      id: "characteristics",
+      label : "Caractéristiques",
+    },
+    {
+      id: "atmosphericConditions",
+      label : "Cycle planétaire",
+    },
+    {
+      id: "meteorological",
+      label : "Météorologique",
+    },
+    {
+      id: "context",
+      label : "Actualités",
+    },
+    {
+      id: "military",
+      label : "Militaires",
+    },
+  ]
 
   const otherCategories = categories.filter(
-    (cat) => cat.category !== selectedCategory,
+    (cat) => cat.id !== selectedCategory,
   );
 
   const currentPlanet = planetFocused;
@@ -51,7 +70,7 @@ export default function MeteoSection() {
 
               {otherCategories.map((cat) => (
                 <MeteoDetail
-                  category={cat.category}
+                  category={cat.id}
                   planetData={currentPlanet ?? undefined}
                 />
               ))}
@@ -62,9 +81,9 @@ export default function MeteoSection() {
       {!selectedCategory &&
         categories.map((cat) => (
           <MeteoBtn
-            key={cat.category}
-            title={cat.category}
-            category={cat.category}
+            key={cat.id}
+            title={cat.label}
+            category={cat.id}
             isVisible={true}
           />
         ))}
