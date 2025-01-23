@@ -16,7 +16,7 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
-import MeteoDetail from "@/components/MeteoSection";
+import MeteoSection from "@/components/MeteoSection";
 
 export default function ThreeDemo() {
   let timeout: ReturnType<typeof requestAnimationFrame>;
@@ -31,9 +31,9 @@ export default function ThreeDemo() {
     return () => clearTimeout(timeout);
   }, []);
 
+  const eventEmitter = new EventEmitter();
   const onContextCreate = async (gl: ExpoWebGLRenderingContext) => {
     console.log(gl);
-    const eventEmitter = new EventEmitter();
     const sizes = new Sizes(gl);
     const camera = new Camera(eventEmitter, sizes);
     const scene = new Scene(eventEmitter, camera);
@@ -120,7 +120,7 @@ export default function ThreeDemo() {
         >
           <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
-        <MeteoDetail />
+        <MeteoSection eventEmitter={eventEmitter} />
       </View>
     </GestureHandlerRootView>
   );
