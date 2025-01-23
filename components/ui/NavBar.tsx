@@ -35,7 +35,7 @@ export default function NavBar({onPress}: NavBarProps) {
         >
           <Path
             d="M1 41V1H297V41L282.5 49H15L1 41Z"
-            fill="#111"
+            fill="transparent"
             stroke="#fff"
             strokeWidth="2"
           />
@@ -77,10 +77,9 @@ export default function NavBar({onPress}: NavBarProps) {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'fixed',
-    bottom: 0,
+    position: 'absolute',
+    bottom: 30,
     left: 0,
-    backgroundColor: '#000',
     justifyContent: 'flex-end',
   },
   content: {

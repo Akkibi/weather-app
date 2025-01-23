@@ -16,7 +16,7 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
-import MeteoDetail from "@/components/MeteoSection";
+import MeteoSection from "@/components/MeteoSection";
 import NavBar from "./ui/NavBar";
 import usePlanetStore from "@/stores/usePlanetStore";
 
@@ -77,7 +77,6 @@ export default function ThreeDemo() {
     // Update the handleBackPressRef to trigger the eventEmitter
     handleBackPressRef.current = () => {
       eventEmitter.trigger("back");
-      reset()
     };
 
     // define touchevent triggers
@@ -118,7 +117,7 @@ export default function ThreeDemo() {
         <GestureDetector gesture={taps}>
           <GLView style={{ flex: 1 }} onContextCreate={onContextCreate} />
         </GestureDetector>
-        <MeteoDetail />
+        <MeteoSection />
         <NavBar onPress={handleBackPressRef.current} />
       </View>
     </GestureHandlerRootView>
