@@ -12,11 +12,16 @@ import useMeteoStore from "@/stores/useMeteoStore";
 import MeteoBtn from "@/components/MeteoBtn";
 import MeteoDetail from "@/components/MeteoDetail";
 import { planetsArray, pointsArray } from "@/components/Experience/Utils/data";
+import { EventEmitter } from "./Experience/Utils/EventEmitter";
 
 let ScreenHeight = Dimensions.get("window").height;
 
-export default function MeteoSection() {
-  const { isFocus, planetFocused } = usePlanetStore();
+interface MeteoSectionProps {
+  eventEmitter: EventEmitter;
+}
+
+export default function MeteoSection({ eventEmitter } : MeteoSectionProps) {
+  const { isFocus, planetFocused, reset } = usePlanetStore();
   const { selectedCategory, setCategory } = useMeteoStore();
 
   if (!isFocus) return null;
@@ -47,6 +52,10 @@ export default function MeteoSection() {
   const otherCategories = categories.filter(
     (cat) => cat.id !== selectedCategory,
   );
+
+  eventEmitter.on("back", () => {
+    reset()
+  });
 
   const currentPlanet = planetFocused;
 

@@ -17,8 +17,6 @@ import {
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
 import MeteoSection from "@/components/MeteoSection";
-import NavBar from "./ui/NavBar";
-import usePlanetStore from "@/stores/usePlanetStore";
 
 export default function ThreeDemo() {
   const { isFocus, reset } = usePlanetStore();
@@ -34,9 +32,9 @@ export default function ThreeDemo() {
     return () => clearTimeout(timeout);
   }, []);
 
+  const eventEmitter = new EventEmitter();
   const onContextCreate = async (gl: ExpoWebGLRenderingContext) => {
     console.log(gl);
-    const eventEmitter = new EventEmitter();
     const sizes = new Sizes(gl);
     const camera = new Camera(eventEmitter, sizes);
     const scene = new Scene(eventEmitter, camera);
@@ -117,8 +115,13 @@ export default function ThreeDemo() {
         <GestureDetector gesture={taps}>
           <GLView style={{ flex: 1 }} onContextCreate={onContextCreate} />
         </GestureDetector>
-        <MeteoSection />
-        <NavBar onPress={handleBackPressRef.current} />
+        <TouchableOpacity
+          onPress={() => handleBackPressRef.current()}
+          style={styles.backButton}
+        >
+          <Text style={styles.backButtonText}>Back</Text>
+        </TouchableOpacity>
+        <MeteoSection eventEmitter={eventEmitter} />
       </View>
     </GestureHandlerRootView>
   );
