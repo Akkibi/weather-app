@@ -19,7 +19,7 @@ import {
 import MeteoSection from "@/components/MeteoSection";
 
 export default function ThreeDemo() {
-  const { isFocus, reset } = usePlanetStore();
+  // const { isFocus, reset } = usePlanetStore();
   let timeout: ReturnType<typeof requestAnimationFrame>;
 
   // const singleTap = Gesture.Tap();
