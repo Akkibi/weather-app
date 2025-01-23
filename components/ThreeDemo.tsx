@@ -17,6 +17,7 @@ import {
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
 import MeteoSection from "@/components/MeteoSection";
+import NavBar from "./ui/NavBar";
 
 export default function ThreeDemo() {
   // const { isFocus, reset } = usePlanetStore();
@@ -115,13 +116,8 @@ export default function ThreeDemo() {
         <GestureDetector gesture={taps}>
           <GLView style={{ flex: 1 }} onContextCreate={onContextCreate} />
         </GestureDetector>
-        <TouchableOpacity
-          onPress={() => handleBackPressRef.current()}
-          style={styles.backButton}
-        >
-          <Text style={styles.backButtonText}>Back</Text>
-        </TouchableOpacity>
         <MeteoSection eventEmitter={eventEmitter} />
+        <NavBar onPress={()=>{handleBackPressRef.current()}} />
       </View>
     </GestureHandlerRootView>
   );
