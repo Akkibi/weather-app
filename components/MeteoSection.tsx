@@ -81,12 +81,14 @@ export default function MeteoSection({ eventEmitter } : MeteoSectionProps) {
         </View>
       )}
       {!selectedCategory &&
-        categories.map((cat) => (
+        categories.map((cat, index) => (
           <MeteoBtn
             key={cat.id}
             title={cat.label}
             category={cat.id}
             isVisible={true}
+            top={pointsArray[index].top}
+            left={pointsArray[index].left}
           />
         ))}
     </>

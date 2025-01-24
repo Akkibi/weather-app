@@ -14,14 +14,16 @@ type Props = {
   title: string;
   category: string;
   isVisible: boolean;
-  position?: THREE.Vector3;
+  top?: number;
+  left?: number;
 };
 
 export default function MeteoBtn({
   title,
   category,
   isVisible,
-  position,
+  top,
+  left
 }: Props) {
   const { selectedCategory, setCategory } = useMeteoStore();
 
@@ -32,20 +34,12 @@ export default function MeteoBtn({
     setCategory(category);
   };
 
-  const style = position
-    ? {
-        position: "absolute" as const,
-        left: `${(position.x + 1) * 50}%` as DimensionValue,
-        top: `${(-position.y + 1) * 50}%` as DimensionValue,
-      }
-    : {};
-
   return (
     <Pressable
       onPress={handlePress}
       style={[
         styles.button,
-        style,
+        { top: `${top ?? 0}%`, left: `${left ?? 0}%` },
         selectedCategory === category && styles.selected,
       ]}
     >
@@ -61,7 +55,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     position: "absolute",
-    top: "50%"
   },
   selected: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",

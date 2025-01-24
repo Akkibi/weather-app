@@ -210,22 +210,32 @@ export const planetsArray = [
 export const pointsArray = [
   {
     name: "temperature",
-    position: new THREE.Vector3(1, 9, 2),
+    position3D: new THREE.Vector3(1, 9, 2),
+    top: 62,
+    left: 15
   },
   {
     name: "humidity",
-    position: new THREE.Vector3(0, 0, 0),
+    position3D: new THREE.Vector3(0, 0, 0),
+    top: 45,
+    left: 5
   },
   {
     name: "wind",
-    position: new THREE.Vector3(0, 0, 0),
+    position3D: new THREE.Vector3(0, 0, 0),
+    top: 35,
+    left: 55
   },
   {
     name: "clouds",
-    position: new THREE.Vector3(0, 0, 0),
+    position3D: new THREE.Vector3(0, 0, 0),
+    top: 50,
+    left: 70
   },
   {
     name: "pressure",
-    position: new THREE.Vector3(0, 0, 0),
+    position3D: new THREE.Vector3(0, 0, 0),
+    top: 60,
+    left: 60
   },
 ];
