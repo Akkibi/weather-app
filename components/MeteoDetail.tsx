@@ -100,13 +100,14 @@ const styles = StyleSheet.create({
   dataLabel: {
     color: "white",
     fontSize: 20,
-    fontWeight: "500",
     letterSpacing: 10,
-    lineHeight: 29
+    lineHeight: 29,
+    fontFamily: 'ClashDisplay',
   },
   dataValue: {
     color: "white",
     fontSize: 52,
-    fontWeight: "600"
+    fontWeight: "600",
+    fontFamily: 'ClashDisplayMedium',
   },
 });

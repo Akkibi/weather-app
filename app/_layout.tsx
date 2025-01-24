@@ -40,6 +40,9 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    NeoPixel: require("../assets/fonts/neopixel-regular.otf"),
+    ClashDisplay: require("../assets/fonts/ClashDisplay-Regular.ttf"),
+    ClashDisplayMedium: require("../assets/fonts/ClashDisplay-Medium.ttf"),
   });
 
   useEffect(() => {
