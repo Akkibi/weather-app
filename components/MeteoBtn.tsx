@@ -85,8 +85,7 @@ const styles = StyleSheet.create({
   container: {
     zIndex: 1000,
     position: "absolute",
-    width: 161,
-    height: 32,
+    width: "auto",
   },
   pressable: {
     width: "100%",
@@ -100,5 +99,7 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     zIndex: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
 });

@@ -46,7 +46,7 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
     },
     {
       id: "atmosphericConditions",
-      label: "Cycle planétaire",
+      label: "Cycle Planétaire",
     },
     {
       id: "meteorological",
@@ -54,11 +54,11 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
     },
     {
       id: "context",
-      label: "Actualités",
+      label: "Les Actualités",
     },
     {
       id: "military",
-      label: "Militaires",
+      label: "Info. Militaires",
     },
   ];
 
@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: ScreenHeight,
+    backgroundColor: "rgba(0, 0, 0, 0.25)"
   },
   scrollContent: {
     flexGrow: 1,
