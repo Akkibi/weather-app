@@ -211,31 +211,31 @@ export const pointsArray = [
   {
     name: "temperature",
     position3D: new THREE.Vector3(1, 9, 2),
-    top: 62,
+    top: 65,
     left: 15
   },
   {
     name: "humidity",
     position3D: new THREE.Vector3(0, 0, 0),
-    top: 45,
+    top: 50,
     left: 5
   },
   {
     name: "wind",
     position3D: new THREE.Vector3(0, 0, 0),
     top: 35,
-    left: 55
+    left: 35
   },
   {
     name: "clouds",
     position3D: new THREE.Vector3(0, 0, 0),
-    top: 50,
-    left: 70
+    top: 45,
+    left: 50
   },
   {
     name: "pressure",
     position3D: new THREE.Vector3(0, 0, 0),
-    top: 60,
-    left: 60
+    top: 57,
+    left: 53
   },
 ];

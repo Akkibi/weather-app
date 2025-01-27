@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet, Pressable, DimensionValue } from "react-native";
 import useMeteoStore from "@/stores/useMeteoStore";
-import { THREE } from "expo-three";
+import ButtonBackground from "@/components/ButtonBackground";
 
 type Position = {
   top?: number;
@@ -38,28 +38,31 @@ export default function MeteoBtn({
     <Pressable
       onPress={handlePress}
       style={[
-        styles.button,
+        styles.container,
         { top: `${top ?? 0}%`, left: `${left ?? 0}%` },
         selectedCategory === category && styles.selected,
       ]}
     >
+      <ButtonBackground />
       <Text style={styles.text}>{title}</Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
+  container: {
     zIndex: 1000,
-    padding: 8,
-    borderRadius: 4,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
     position: "absolute",
+    width: 161,
+    height: 32,
+    justifyContent: "center",
+    alignItems: "center",
   },
   selected: {
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    opacity: 0.8,
   },
   text: {
     color: "white",
+    zIndex: 1,
   },
 });
