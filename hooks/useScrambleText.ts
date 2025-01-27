@@ -13,8 +13,8 @@ export const useScrambleText = (
 ) => {
   const {
     scrambleChars = '!<>-_\\/[]{}—=+*^?#________',
-    scrambleDuration = 40,
-    scrambleSpeed = 1000 / 30 // ~30fps
+    scrambleDuration = 10,
+    scrambleSpeed = 1000 / 35
   } = options;
 
   const [displayText, setDisplayText] = useState(text);

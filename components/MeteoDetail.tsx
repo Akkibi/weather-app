@@ -36,7 +36,7 @@ export default function MeteoDetail({ category, planetData, isVisible = false }:
       setIsScrambling(false);
       Animated.timing(fadeAnim, {
         toValue: 0,
-        duration: 100,
+        duration: 300,
         useNativeDriver: true,
       }).start();
     }

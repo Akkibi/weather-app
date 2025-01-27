@@ -1,14 +1,8 @@
-import React from "react";
-import { Text, StyleSheet, Pressable, DimensionValue } from "react-native";
+import React, { useRef, useEffect, useState } from "react";
+import { Text, StyleSheet, Pressable, DimensionValue, Animated } from "react-native";
 import useMeteoStore from "@/stores/useMeteoStore";
 import ButtonBackground from "@/components/ButtonBackground";
-
-type Position = {
-  top?: number;
-  left?: number;
-  right?: number;
-  bottom?: number;
-};
+import { useScrambleText } from "@/hooks/useScrambleText";
 
 type Props = {
   title: string;
@@ -26,26 +20,64 @@ export default function MeteoBtn({
   left
 }: Props) {
   const { selectedCategory, setCategory } = useMeteoStore();
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [isScrambling, setIsScrambling] = useState(false);
+
+  const scrambledTitle = useScrambleText(title, isScrambling, {});
+
+  useEffect(() => {
+    if (isVisible) {
+      setIsScrambling(true);
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      setIsScrambling(false);
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 100,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [isVisible]);
 
   if (!isVisible) return null;
 
   const handlePress = () => {
-    console.log("click");
-    setCategory(category);
+    setIsScrambling(true);
+
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => {
+      setCategory(category);
+      setIsScrambling(false);
+    });
   };
 
   return (
-    <Pressable
-      onPress={handlePress}
+    <Animated.View
       style={[
         styles.container,
-        { top: `${top ?? 0}%`, left: `${left ?? 0}%` },
+        {
+          top: `${top ?? 0}%`,
+          left: `${left ?? 0}%`,
+          opacity: fadeAnim
+        },
         selectedCategory === category && styles.selected,
       ]}
     >
-      <ButtonBackground />
-      <Text style={styles.text}>{title}</Text>
-    </Pressable>
+      <Pressable
+        onPress={handlePress}
+        style={styles.pressable}
+      >
+        <ButtonBackground />
+        <Text style={styles.text}>{scrambledTitle}</Text>
+      </Pressable>
+    </Animated.View>
   );
 }
 
@@ -55,6 +87,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 161,
     height: 32,
+  },
+  pressable: {
+    width: "100%",
+    height: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
