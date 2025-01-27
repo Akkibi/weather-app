@@ -1,13 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  Text,
   View,
   StyleSheet,
   Dimensions,
-  ScrollView,
   FlatList,
-  Pressable,
-  ListRenderItem,
+  ViewToken,
 } from "react-native";
 import usePlanetStore from "@/stores/usePlanetStore";
 import useMeteoStore from "@/stores/useMeteoStore";
@@ -30,6 +27,15 @@ interface Category {
 export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
   const { isFocus, planetFocused, reset } = usePlanetStore();
   const { selectedCategory, setCategory } = useMeteoStore();
+  const [visibleItems, setVisibleItems] = useState<string[]>([]);
+
+  const onViewableItemsChanged = React.useCallback(({ viewableItems }: { viewableItems: ViewToken[] }) => {
+    setVisibleItems(viewableItems.map(item => (item.item as Category).id));
+  }, []);
+
+  const viewabilityConfig = {
+    itemVisiblePercentThreshold: 60
+  };
 
   if (!isFocus) return null;
 
@@ -66,10 +72,11 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
 
   const currentPlanet = planetFocused;
 
-  const renderMeteoDetail: ListRenderItem<Category> = ({ item }) => (
+  const renderMeteoDetail = ({ item }: { item: Category }) => (
     <MeteoDetail
       category={item.id}
       planetData={currentPlanet ?? undefined}
+      isVisible={visibleItems.includes(item.id)}
     />
   );
 
@@ -86,6 +93,8 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
+            onViewableItemsChanged={onViewableItemsChanged}
+            viewabilityConfig={viewabilityConfig}
           />
         </View>
       )}
@@ -115,24 +124,5 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     width: "100%",
     minHeight: ScreenHeight,
-  },
-  text: {
-    color: "red",
-  },
-  button: {
-    position: "absolute",
-  },
-  backButton: {
-    zIndex: 100,
-    position: "fixed",
-    top: ScreenHeight - 60,
-    left: 0,
-    width: "100%",
-    padding: 16,
-    backgroundColor: "white",
-  },
-  otherCategories: {
-    marginTop: 20,
-    paddingHorizontal: 10,
   },
 });
