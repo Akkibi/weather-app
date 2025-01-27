@@ -5,7 +5,9 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
+  FlatList,
   Pressable,
+  ListRenderItem,
 } from "react-native";
 import usePlanetStore from "@/stores/usePlanetStore";
 import useMeteoStore from "@/stores/useMeteoStore";
@@ -20,64 +22,71 @@ interface MeteoSectionProps {
   eventEmitter: EventEmitter;
 }
 
-export default function MeteoSection({ eventEmitter } : MeteoSectionProps) {
+interface Category {
+  id: string;
+  label: string;
+}
+
+export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
   const { isFocus, planetFocused, reset } = usePlanetStore();
   const { selectedCategory, setCategory } = useMeteoStore();
 
   if (!isFocus) return null;
 
-  const categories = [
+  const categories: Category[] = [
     {
       id: "characteristics",
-      label : "Caractéristiques",
+      label: "Caractéristiques",
     },
     {
       id: "atmosphericConditions",
-      label : "Cycle planétaire",
+      label: "Cycle planétaire",
     },
     {
       id: "meteorological",
-      label : "Météorologique",
+      label: "Météorologique",
     },
     {
       id: "context",
-      label : "Actualités",
+      label: "Actualités",
     },
     {
       id: "military",
-      label : "Militaires",
+      label: "Militaires",
     },
-  ]
+  ];
 
   const otherCategories = categories.filter(
-    (cat) => cat.id !== selectedCategory,
+    (cat) => cat.id !== selectedCategory
   );
 
   eventEmitter.on("back", () => {
-    reset()
+    reset();
   });
 
   const currentPlanet = planetFocused;
+
+  const renderMeteoDetail: ListRenderItem<Category> = ({ item }) => (
+    <MeteoDetail
+      category={item.id}
+      planetData={currentPlanet ?? undefined}
+    />
+  );
 
   return (
     <>
       {selectedCategory && (
         <View style={styles.container}>
-          <ScrollView style={styles.scrollContent}>
-            <>
-              <MeteoDetail
-                category={selectedCategory}
-                planetData={currentPlanet ?? undefined}
-              />
-
-              {otherCategories.map((cat) => (
-                <MeteoDetail
-                  category={cat.id}
-                  planetData={currentPlanet ?? undefined}
-                />
-              ))}
-            </>
-          </ScrollView>
+          <FlatList<Category>
+            data={[
+              { id: selectedCategory, label: categories.find(cat => cat.id === selectedCategory)?.label || "" },
+              ...otherCategories
+            ]}
+            renderItem={renderMeteoDetail}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+          />
         </View>
       )}
       {!selectedCategory &&
@@ -103,11 +112,9 @@ const styles = StyleSheet.create({
     height: ScreenHeight,
   },
   scrollContent: {
-    flex: 1,
-    top: 0,
-    left: 0,
+    flexGrow: 1,
     width: "100%",
-    height: ScreenHeight,
+    minHeight: ScreenHeight,
   },
   text: {
     color: "red",
@@ -118,11 +125,11 @@ const styles = StyleSheet.create({
   backButton: {
     zIndex: 100,
     position: "fixed",
-    top: (ScreenHeight - 60),
+    top: ScreenHeight - 60,
     left: 0,
     width: "100%",
     padding: 16,
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   otherCategories: {
     marginTop: 20,
