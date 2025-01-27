@@ -1,7 +1,8 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Text, View, StyleSheet, Dimensions, Animated } from "react-native";
 import usePlanetStore from "@/stores/usePlanetStore";
 import Planet from "./Experience/World/Planet";
+import { useScrambleText } from "@/hooks/useScrambleText";
 
 let ScreenHeight = Dimensions.get("window").height;
 
@@ -21,20 +22,21 @@ interface MeteoData {
 export default function MeteoDetail({ category, planetData, isVisible = false }: MeteoDetailProps) {
   const { isFocus } = usePlanetStore();
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [isScrambling, setIsScrambling] = useState(false);
 
   useEffect(() => {
     if (isVisible) {
-      // Fade in
+      setIsScrambling(true);
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 500,
         useNativeDriver: true,
       }).start();
     } else {
-      // Fade out
+      setIsScrambling(false);
       Animated.timing(fadeAnim, {
         toValue: 0,
-        duration: 300, // Slightly faster fade out
+        duration: 100,
         useNativeDriver: true,
       }).start();
     }
@@ -42,43 +44,47 @@ export default function MeteoDetail({ category, planetData, isVisible = false }:
 
   if (!isFocus || !planetData) return null;
 
-  const categoryData = [
+  const categoryData: MeteoData[] = [
     {
       id: "characteristics",
       label: "Surface Area",
-      value: planetData.characteristics.surfaceArea,
+      value: planetData.characteristics?.surfaceArea ?? null,
     },
     {
       id: "atmosphericConditions",
       label: "Atmospheric Conditions",
-      value: planetData.atmosphericConditions.averageMolarMass,
+      value: planetData.atmosphericConditions?.averageMolarMass ?? null,
     },
     {
       id: "meteorological",
       label: "Meteorological",
-      value: planetData.meteorological.temperatureRange
+      value: planetData.meteorological?.temperatureRange ?? null,
     },
     {
       id: "context",
       label: "Context",
-      value: planetData.context.political
+      value: planetData.context?.political ?? null,
     },
     {
       id: "military",
       label: "Military",
-      value: planetData.military.population
+      value: planetData.military?.population ?? null,
     },
   ];
 
   const renderItem = ({ item }: { item: MeteoData }) => {
+    const displayValue = item.value?.toString() ?? 'data unavailable';
+    const scrambledLabel = useScrambleText(item.label, isScrambling, {});
+    const scrambledValue = useScrambleText(displayValue, isScrambling, {});
+
     if (item.value === null) {
       return (
         <Animated.View key={item.id} style={[styles.detail, { opacity: fadeAnim }]}>
           <Text style={styles.dataLabel}>
-            {item.label} data unavailable
+            {scrambledLabel}
           </Text>
           <Text style={styles.dataValue}>
-            data unavailable
+            Data unavailable
           </Text>
         </Animated.View>
       );
@@ -87,7 +93,7 @@ export default function MeteoDetail({ category, planetData, isVisible = false }:
     return (
       <Animated.View key={item.id} style={[styles.detail, { opacity: fadeAnim }]}>
         <Text style={styles.dataLabel}>
-          {item.label}
+          {scrambledLabel}
         </Text>
         <Text style={styles.dataValue}>
           {item.value}
