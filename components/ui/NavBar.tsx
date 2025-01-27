@@ -37,7 +37,7 @@ export default function NavBar({onPress}: NavBarProps) {
             d="M1 41V1H297V41L282.5 49H15L1 41Z"
             fill="transparent"
             stroke="#fff"
-            strokeWidth="2"
+            strokeWidth="1"
           />
         </Svg>
         <View style={styles.textContainer}>
@@ -62,6 +62,16 @@ export default function NavBar({onPress}: NavBarProps) {
           </View>
           </View>
 
+          <View style={styles.separator}>
+            <Svg width="100%" height="100%" viewBox="0 0 32 43" fill="none">
+              <Path
+                d="M30.873 1L1.00015 20.8333V43"
+                stroke="#ffffff"
+                strokeWidth="1"
+              />
+            </Svg>
+          </View>
+
           <View style={styles.center}>
             <Text style={styles.text}>TX 06</Text>
           </View>
@@ -80,7 +90,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 30,
     left: 0,
+    height: '100%',
     justifyContent: 'flex-end',
+  },
+  separator: {
+    position: 'absolute',
+    top: -0.5,
+    left: '20%',
+    height: '100%',
+    width: '12.25%',
+    justifyContent: 'center',
+    zIndex: 1,
   },
   content: {
     position: 'relative',
