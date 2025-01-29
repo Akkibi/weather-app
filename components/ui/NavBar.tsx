@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
+import Svg, { Path, Rect } from 'react-native-svg';
 import usePlanetStore from "@/stores/usePlanetStore";
 import useMeteoStore from "@/stores/useMeteoStore";
 import { useScrambleText } from "@/hooks/useScrambleText";
@@ -53,6 +53,8 @@ export default function NavBar({onPress}: NavBarProps) {
             stroke="#fff"
             strokeWidth="1"
           />
+          <Rect width={4} height={4} fill={'#ffffff'} x={0} y={-6} rx={1} />
+          <Rect width={4} height={4} fill={'#ffffff'} x={6} y={-6} rx={1} />
         </Svg>
         <View style={styles.textContainer}>
           <View style={styles.left}>
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 30,
     left: 0,
-    height: '100%',
+    width: '100%',
     justifyContent: 'flex-end',
   },
   separator: {
