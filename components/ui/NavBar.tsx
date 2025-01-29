@@ -39,16 +39,13 @@ export default function NavBar({onPress}: NavBarProps) {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
+      <View style={styles.container}>
         <Svg
-          width="100%"
-          height="100%"
-          viewBox="0 0 298 50"
+          viewBox="0 0 298 40"
           style={styles.svgBackground}
         >
           <Path
-            d="M1 41V1H297V41L282.5 49H15L1 41Z"
+            d="M1 31V1H297V31L282.5 36H15L1 31Z"
             fill="transparent"
             stroke="#fff"
             strokeWidth="1"
@@ -77,9 +74,9 @@ export default function NavBar({onPress}: NavBarProps) {
           </View>
 
           <View style={styles.separator}>
-            <Svg width="100%" height="100%" viewBox="0 0 32 43" fill="none">
+            <Svg height="100%" viewBox="0 0 32 48" fill="none">
               <Path
-                d="M30.873 1L1.00015 20.8333V43"
+                d="M30.873 1L1.00015 20.8333V50"
                 stroke="#ffffff"
                 strokeWidth="1"
               />
@@ -95,7 +92,6 @@ export default function NavBar({onPress}: NavBarProps) {
           </View>
         </View>
       </View>
-    </View>
   );
 }
 
@@ -104,22 +100,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 30,
     left: 0,
-    height: '100%',
+    width: '100%',
     justifyContent: 'flex-end',
   },
   separator: {
     position: 'absolute',
-    top: -0.5,
+    top: 0,
     left: '20%',
     height: '100%',
-    width: '12.25%',
-    justifyContent: 'center',
     zIndex: 1,
-  },
-  content: {
-    position: 'relative',
-    height: 80,
-    marginHorizontal: 20,
   },
   svgBackground: {
     position: 'absolute',
@@ -127,6 +116,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+    paddingHorizontal: 20
   },
   textContainer: {
     flexDirection: 'row',
@@ -138,6 +128,7 @@ const styles = StyleSheet.create({
     width: '20%',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingLeft: 20,
   },
   center: {
     width: '60%',
@@ -148,6 +139,7 @@ const styles = StyleSheet.create({
     width: '20%',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingRight: 20,
   },
   text: {
     color: '#fff',
