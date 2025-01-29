@@ -48,8 +48,8 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
         gyroSubscription = Gyroscope.addListener((data) => {
           setGyroscopeData(data);
 
-          const rotationThreshold = 2;
-          if (Math.abs(data.z) > rotationThreshold) {
+          const rotationThreshold = 2.5;
+          if (Math.abs(data.x) > rotationThreshold) {
             setIsMilitaryVisible(true);
           }
         });
