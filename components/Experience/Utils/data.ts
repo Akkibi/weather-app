@@ -3,7 +3,7 @@ import { THREE } from "expo-three";
 export const planetsArray = [
   {
     id: 1,
-    name: "Azternae",
+    name: "ParaIV",
     size: 2,
     speed: 2,
     distance: 5,
@@ -116,6 +116,10 @@ export const planetsArray = [
           value: "33 poils/cm²"
         },
       },
+      weakness: {
+        title: 'Faiblesse',
+        value: 'Les chats'
+      },
       animalSpecies: {
         title: 'Espèces animales',
         value: 2
@@ -139,7 +143,7 @@ export const planetsArray = [
   },
   {
     id: 2,
-    name: "Alcyoneus",
+    name: "Hex",
     size: 3,
     speed: 2.91,
     distance: 6,
@@ -252,6 +256,10 @@ export const planetsArray = [
           value: "554 poils/cm²"
         },
       },
+      weakness: {
+        title: 'Faiblesse',
+        value: 'Le yodeling'
+      },
       animalSpecies: {
         title: 'Espèces animales',
         value: 120
@@ -272,7 +280,7 @@ export const planetsArray = [
   },
   {
     id: 3,
-    name: "Almops",
+    name: "Ell",
     size: 2,
     speed: 1.62,
     distance: 4,
@@ -374,6 +382,10 @@ export const planetsArray = [
           value: "27 poils/cm²"
         },
       },
+      weakness: {
+        title: 'Faiblesse',
+        value: 'Les tomates'
+      },
       animalSpecies: {
         title: 'Espèces animales',
         value: 185
@@ -397,7 +409,7 @@ export const planetsArray = [
   },
   {
     id: 4,
-    name: "Aloadae",
+    name: "FragVI",
     size: 1,
     speed: 1.111,
     distance: 3,
@@ -442,7 +454,7 @@ export const planetsArray = [
       },
       winds: {
         title: 'Vents',
-        value: "up to 500 km/h"
+        value: "500 km/h"
       },
       sunlightHours: {
         title: "Heures d'ensoleillement",
@@ -485,16 +497,171 @@ export const planetsArray = [
           value: "1 poils/cm²"
         },
       },
+      weakness: {
+        title: 'Faiblesse',
+        value: 'Les baguettes chinoises'
+      },
       animalSpecies: {
         title: 'Espèces animales',
         value: 3
       },
       chemicalComposition: {
         title: 'Composition chimique',
-        aluminum: "25%",
-        hydrogen: "12%",
-        carbon: "0.29%",
-        iron: "0.16%",
+        aluminum: {
+          title: 'Al',
+          value: "25%"
+        },
+        hydrogen: {
+          title: 'H',
+          value: "12%"
+        },
+        carbon: {
+          title: 'C',
+          value: "0.29%"
+        },
+        iron: {
+          title: 'Fe',
+          value: "0.16%"
+        },
+      },
+    },
+  },
+  {
+    id: 5,
+    name: "Tatooin",
+    size: 3,
+    speed: 2,
+    distance: 4,
+    temperature: {
+      title: 'Temperature Min.',
+      value: '15,1 MK'
+    },
+    color: "#ffff00",
+    characteristics: {
+      title: 'Caractéristiques',
+      surfaceArea:{
+        title: 'Surface',
+        value: "4,346 × 1010 km²"
+      },
+      volume: {
+        title: 'Volume',
+        value: "8,271 × 1014 km³"
+      },
+      mass: {
+        title: 'Masse',
+        value: "5,684 × 1026 kg"
+      },
+      gravity: "10,44 m/s²",
+      shape: {
+        title: 'Forme',
+        value: "Sphérique"
+      },
+    },
+    atmosphericConditions: {
+      title: 'Conditions atmosphériques',
+      pressure: "9,3 × 106 Pa",
+    },
+    meteorological: {
+      title: 'Métérologique',
+      temperature: {
+        title: 'Temperature',
+        value: "15,1 MK"
+      },
+      winds: {
+        title: 'Vents',
+        value: "30km/h "
+      },
+      sunlightHours: {
+        title: "Heures d'ensoleillement",
+        value: "24h"
+      },
+      brightness: {
+        title: 'Luminosité',
+        value: "100%"
+      },
+    },
+    context: {
+      title: 'Contexte',
+      politics: {
+        title: 'Situation Politique',
+        value: "Pas de données"
+      },
+      health: {
+        title: 'Santé',
+        value: "Pas de données"
+      },
+      technology: {
+        title: 'Technologie',
+        value: "Pas de données"
+      },
+    },
+    military: {
+      title: 'Militaire',
+      population: {
+        title: 'Population',
+        value: "1 (inconnu)"
+      },
+      hairDensity: {
+        title: 'taux de pilosité',
+        face: {
+          title: 'Visage',
+          value: "11 poils/cm²"
+        },
+        body: {
+          title: 'Corps',
+          value: "9 poils/cm²"
+        },
+      },
+      weakness: {
+        title: 'Faiblesse',
+        value: 'L’Odeur du Fromage'
+      },
+      animalSpecies: {
+        title: 'Espèces animales',
+        value: 1
+      },
+      chemicalComposition: {
+        title: 'Composition chimique',
+        aluminum: {
+          title: 'Al',
+          value: "25%"
+        },
+        hydrogen: {
+          title: 'H',
+          value: "73,46%"
+        },
+        carbon: {
+          title: 'C',
+          value: "0.29%"
+        },
+        iron: {
+          title: 'Fe',
+          value: "0.16%"
+        },
+        helium: {
+          title: 'He',
+          value: "24,85%"
+        },
+        oxygen: {
+          title: 'O',
+          value: "0.77%"
+        },
+        neon: {
+          title: 'Ne',
+          value: "0.12%"
+        },
+        nitrogen: {
+          title: 'N',
+          value: "0.09%"
+        },
+        silicon: {
+          title: 'Si',
+          value: "0.07%"
+        },
+        magnesium: {
+          title: 'Mg',
+          value: "0.05%"
+        }
       },
     },
   },
