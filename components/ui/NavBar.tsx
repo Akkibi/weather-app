@@ -18,13 +18,10 @@ export default function NavBar({onPress}: NavBarProps) {
   const scrambledName = useScrambleText(planetName, isScrambling, {});
 
   useEffect(() => {
-    // Trigger scramble effect when planetFocused changes
     setIsScrambling(true);
-    // Reset scrambling after a short delay
     const timer = setTimeout(() => {
       setIsScrambling(false);
-    }, 1000); // Adjust timing as needed
-
+    }, 1000);
     return () => clearTimeout(timer);
   }, [planetFocused]);
 
