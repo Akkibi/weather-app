@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Text, View, StyleSheet, Dimensions, Animated } from "react-native";
+import { Text, View, StyleSheet, Dimensions, Animated, ScrollView } from "react-native";
 import usePlanetStore from "@/stores/usePlanetStore";
 import Planet from "./Experience/World/Planet";
 import { useScrambleText } from "@/hooks/useScrambleText";
@@ -10,13 +10,6 @@ interface MeteoDetailProps {
   category: string;
   planetData?: Planet;
   isVisible?: boolean;
-}
-
-interface MeteoData {
-  id: string;
-  label: string;
-  value: string | number | null;
-  unit?: string;
 }
 
 export default function MeteoDetail({ category, planetData, isVisible = false }: MeteoDetailProps) {
@@ -44,83 +37,110 @@ export default function MeteoDetail({ category, planetData, isVisible = false }:
 
   if (!isFocus || !planetData) return null;
 
-  const categoryData: MeteoData[] = [
-    {
-      id: "characteristics",
-      label: "Surface Area",
-      value: planetData.characteristics?.surfaceArea ?? null,
-    },
-    {
-      id: "atmosphericConditions",
-      label: "Atmospheric Conditions",
-      value: planetData.atmosphericConditions?.averageMolarMass ?? null,
-    },
-    {
-      id: "meteorological",
-      label: "Meteorological",
-      value: planetData.meteorological?.temperatureRange ?? null,
-    },
-    {
-      id: "context",
-      label: "Context",
-      value: planetData.context?.political ?? null,
-    },
-    {
-      id: "military",
-      label: "Military",
-      value: planetData.military?.population ?? null,
-    },
-  ];
-
-  const renderItem = ({ item }: { item: MeteoData }) => {
-    const displayValue = item.value?.toString() ?? 'data unavailable';
-    const scrambledLabel = useScrambleText(item.label, isScrambling, {});
-    const scrambledValue = useScrambleText(displayValue, isScrambling, {});
-
-    if (item.value === null) {
-      return (
-        <Animated.View key={item.id} style={[styles.detail, { opacity: fadeAnim }]}>
-          <Text style={styles.dataLabel}>
-            {scrambledLabel}
-          </Text>
-          <Text style={styles.dataValue}>
-            Data unavailable
-          </Text>
-        </Animated.View>
-      );
-    }
-
-    return (
-      <Animated.View key={item.id} style={[styles.detail, { opacity: fadeAnim }]}>
-        <Text style={styles.dataLabel}>
-          {scrambledLabel}
-        </Text>
-        <Text style={styles.dataValue}>
-          {item.value}
-        </Text>
-      </Animated.View>
-    );
+  const categoryTitles: { [key: string]: string } = {
+    characteristics: planetData.characteristics?.title ?? 'Characteristics',
+    atmosphericConditions: planetData.atmosphericConditions?.title ?? 'Atmospheric Conditions',
+    meteorological: planetData.meteorological?.title ?? 'Meteorological',
+    context: planetData.context?.title ?? 'Context',
+    military: planetData.military?.title ?? 'Military',
   };
 
-  const selectedCategory = categoryData.find(item => item.id === category);
+  const extractSubcategories = (data: any, parentKey?: string): { label: string; value: string }[] => {
+    const result: { label: string; value: string }[] = [];
+
+    const processItem = (item: any, key: string) => {
+      if (typeof item !== 'object' || item === null) return;
+
+      if (item.title && item.value) {
+        result.push({
+          label: item.title,
+          value: item.value.toString()
+        });
+      }
+
+      Object.keys(item).forEach(subKey => {
+        if (typeof item[subKey] === 'object' && item[subKey] !== null) {
+          processItem(item[subKey], subKey);
+        }
+      });
+    };
+
+    processItem(data, parentKey ?? '');
+
+    return result;
+  };
+
+  const subcategories = categoryTitles[category]
+    ? extractSubcategories((planetData as any)[category])
+    : [];
 
   return (
-    <View>
-      {selectedCategory && renderItem({ item: selectedCategory })}
-    </View>
+    <ScrollView
+      style={styles.container}
+      showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={[0]}
+    >
+
+      <Animated.View style={[styles.categoryHeader, { opacity: fadeAnim }]}>
+        <Text style={styles.categoryTitle}>
+          {useScrambleText(categoryTitles[category], isScrambling, {})}
+        </Text>
+      </Animated.View>
+
+      <View style={styles.content}>
+
+        {subcategories.map((subcategory, index) => (
+          <Animated.View
+            key={index}
+            style={[styles.detail, { opacity: fadeAnim }]}
+          >
+            <Text style={styles.dataLabel}>
+              {useScrambleText(subcategory.label, isScrambling, {})}
+            </Text>
+            <Text style={styles.dataValue}>
+              {useScrambleText(subcategory.value, isScrambling, {})}
+            </Text>
+          </Animated.View>
+        ))}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  detail: {
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
-    minHeight: (ScreenHeight - 64),
+  container: {
+    position: 'relative',
+    display:  'flex',
+    flexDirection: 'column',
     width: "100%",
-    gap: 4,
     paddingVertical: 64,
-    paddingHorizontal: 32,
+  },
+  content: {
+    textAlign: 'center',
+    paddingHorizontal: 24,
+  },
+  categoryHeader: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 1,
+    marginBottom: 32,
+    alignItems: 'center',
+  },
+  categoryTitle: {
+    color: "white",
+    fontSize: 24,
+    fontWeight: "400",
+    letterSpacing: 5,
+    fontFamily: 'ClashDisplayBold',
+    textTransform: 'uppercase',
+    textAlign: 'center',
+  },
+  detail: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: "center",
+    minHeight: (ScreenHeight - 128),
+    gap: 8,
   },
   dataLabel: {
     color: "white",
@@ -128,10 +148,11 @@ const styles = StyleSheet.create({
     letterSpacing: 10,
     lineHeight: 29,
     fontFamily: 'ClashDisplay',
+    textTransform: 'uppercase',
   },
   dataValue: {
     color: "white",
-    fontSize: 52,
+    fontSize: 32,
     fontWeight: "600",
     fontFamily: 'ClashDisplayMedium',
   },

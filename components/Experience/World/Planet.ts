@@ -17,6 +17,7 @@ type SphereConfig = {
 };
 
 type Characteristics = {
+  title: string;
   surfaceArea: string;
   volume: string;
   mass: string;
@@ -25,6 +26,7 @@ type Characteristics = {
 };
 
 type AtmosphericConditions = {
+  title: string;
   density: string;
   scaleHeight: string;
   averageMolarMass: string;
@@ -34,6 +36,7 @@ type AtmosphericConditions = {
 };
 
 type Meteorological = {
+  title: string;
   temperatureRange: string;
   winds: string;
   sunlightHours: string;
@@ -42,12 +45,14 @@ type Meteorological = {
 };
 
 type Context = {
+  title: string;
   political: string;
   health: string;
   technology: string;
 };
 
 type Military = {
+  title: string;
   population: string;
   hairDensity: {
     face: string;

@@ -83,7 +83,7 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
   }, []);
 
   const viewabilityConfig = {
-    itemVisiblePercentThreshold: 60
+    itemVisiblePercentThreshold: 10
   };
 
   if (!isFocus) return null;

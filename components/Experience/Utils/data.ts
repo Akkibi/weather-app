@@ -7,48 +7,133 @@ export const planetsArray = [
     size: 2,
     speed: 2,
     distance: 5,
-    minTemperature: -300,
-    maxTemperature: 25,
+    minTemperature: {
+      title: 'Temperature Min.',
+      value: -300
+    },
+    maxTemperature: {
+      title: 'Temperature Max.',
+      value: 25
+    },
     color: "#ff0000",
     characteristics: {
-      surfaceArea: "4,60 × 10^8 km²",
-      volume: "9,284 × 10^11 km³",
-      mass: "4,867 × 10^24 kg",
-      surfaceGravity: "8,87 m/s²",
-      shape: "Sphérique",
+      title: 'Caractéristiques',
+      surfaceArea:{
+        title: 'Surface',
+        value: "4,60 × 10^8 km²"
+      },
+      volume: {
+        title: 'Volume',
+        value: "9,284 × 10^11 km³"
+      },
+      mass: {
+        title: 'Masse',
+        value: "4,867 × 10^24 kg"
+      },
+      surfaceGravity: {
+        title: 'Surface Gravitationelle',
+        value: "8,87 m/s²"
+      },
+      shape: {
+        title: 'Forme',
+        value: "Sphérique"
+      },
     },
     atmosphericConditions: {
-      density: "0,19 kg/m³",
-      scaleHeight: "59,5 km",
-      averageMolarMass: "2,07 g/mol",
+      title: 'Conditions atmosphériques',
+      density: {
+        title: 'Densité',
+        value: "0,19 kg/m³"
+      },
+      scaleHeight: {
+        title: "Hauteur de l'échelle",
+        value: "59,5 km"
+      },
+      MolarMass: {
+        title: 'Masse molaire',
+        value: "2,07 g/mol"
+      },
       composition: {
-        H2: "93%",
-        He: "5%",
+        title: 'Composition',
+        H2: {
+          title: 'H2',
+          value: "93%"
+        },
+        He: {
+          title: 'He',
+          value: "5%"
+        },
       },
     },
     meteorological: {
-      temperatureRange: "-23°C à 123°C",
-      winds: "jusqu’à 1800 km/h",
-      sunlightHours: "10h",
-      brightness: "166%",
-      forecast: "Prévision par heures et sur 10 jours (schémas)",
+      title: 'Métérologique',
+      temperatureRange: {
+        title: 'Plage de températures',
+        value: "-23°C à 123°C"
+      },
+      winds: {
+        title: 'Vents',
+        value: "jusqu’à 1800 km/h"
+      },
+      sunlightHours: {
+        title: "Heures d'ensoleillement",
+        value: "10h"
+      },
+      brightness: {
+        title: 'Luminosité',
+        value: "166%"
+      },
     },
     context: {
-      political: "Dictature",
-      health: "VIRUS",
-      technology: "740 kHz (740 000 opérations/s)",
+      title: 'Contexte',
+      political: {
+        title: 'Situation politique',
+        value: "Dictature"
+      },
+      health: {
+        title: 'Santé',
+        value: "VIRUS"
+      },
+      technology: {
+        title: 'Technologie',
+        value: "740 kHz (740 000 opérations/s)"
+      },
     },
     military: {
-      population: "3M",
-      hairDensity: {
-        face: "120 poils/cm²",
-        body: "33 poils/cm²",
+      title: 'Militaire',
+      population: {
+        title: 'Population',
+        value: "3M"
       },
-      animalSpecies: 2,
+      hairDensity: {
+        title: 'taux de pilosité',
+        face: {
+          title: 'Visage',
+          value: "120 poils/cm²"
+        },
+        body: {
+          title: 'Corps',
+          value: "33 poils/cm²"
+        },
+      },
+      animalSpecies: {
+        title: 'Espèces animales',
+        value: 2
+      },
       chemicalComposition: {
-        CO2: "96%",
-        Ar: "1,93%",
-        N2: "1,89%",
+        title: 'Composition chimique',
+        CO2: {
+          title: 'C02',
+          value: "96%"
+        },
+        Ar: {
+          title: 'Ar',
+          value: "1,93%"
+        },
+        N2: {
+          title: 'N2',
+          value: "1,89%"
+        },
       },
     },
   },
@@ -58,47 +143,129 @@ export const planetsArray = [
     size: 3,
     speed: 2.91,
     distance: 6,
-    minTemperature: -300,
-    maxTemperature: 25,
+    minTemperature: {
+      title: 'Temperature Min.',
+      value: -300
+    },
+    maxTemperature: {
+      title: 'Temperature Max.',
+      value: 25
+    },
     color: "#0000ff",
     characteristics: {
-      surfaceArea: "37 871 220,85 km²",
-      volume: "2,195 × 10^10 km³",
-      mass: "7,347 × 10^22 kg",
-      surfaceGravity: "1,622 m/s²",
-      shape: "Exosquelet",
+      title: 'Caractéristiques',
+      surfaceArea:{
+        title: 'Surface',
+        value: "37 871 220,85 km²"
+      },
+      volume: {
+        title: 'Volume',
+        value: "2,195 × 10^10 km³"
+      },
+      mass: {
+        title: 'Masse',
+        value: "7,347 × 10^22 kg"
+      },
+      surfaceGravity: {
+        title: 'Surface Gravitationelle',
+        value: "1,622 m/s²"
+      },
+      shape: {
+        title: 'Forme',
+        value: "Exosquelet"
+      },
     },
     atmosphericConditions: {
-      density: "0,42 kg/m³",
-      scaleHeight: "27,7 km",
-      averageMolarMass: "2,64 g/mol",
+      title: 'Conditions atmosphériques',
+      density: {
+        title: 'Densité',
+        value: "0,42 kg/m³"
+      },
+      scaleHeight: {
+        title: "Hauteur de l'échelle",
+        value: "27,7 km"
+      },
+      molarMass: {
+        title: 'Masse molaire',
+        value: "2,64 g/mol"
+      },
       composition: {
-        H2: "83%",
-        He: "15%",
+        title: 'Composition',
+        H2: {
+          title: 'H2',
+          value: "83%"
+        },
+        He: {
+          title: 'He',
+          value: "15%"
+        },
       },
     },
     meteorological: {
-      temperatureRange: "-173°C à 427°C",
-      winds: "jusqu’à 300 km/h",
-      sunlightHours: "17h",
-      brightness: "3%",
-      forecast: "Prévision par heures et sur 10 jours (schémas)",
+      title: 'Métérologique',
+      temperatureRange: {
+        title: 'Plage de températures',
+        value: "-173°C à 427°C"
+      },
+      winds: {
+        title: 'Vents',
+        value: "jusqu’à 300 km/h"
+      },
+      sunlightHours: {
+        title: "Heures d'ensoleillement",
+        value: "17h"
+      },
+      brightness: {
+        title: 'Luminosité',
+        value: "3%"
+      },
     },
     context: {
-      political: "Dictature",
-      health: "VIRUS",
-      technology: "20 MHz (millions d’opérations/s)",
+      title: 'Contexte',
+      political: {
+        title: 'Situation politique',
+        value: "Dictature"
+      },
+      health: {
+        title: 'Santé',
+        value: "VIRUS"
+      },
+      technology: {
+        title: 'Technologie',
+        value: "20 MHz (millions d’opérations/s)"
+      },
     },
     military: {
-      population: "3M",
-      hairDensity: {
-        face: "600 poils/cm²",
-        body: "554 poils/cm²",
+      title: 'Militaire',
+      population: {
+        title: 'Population',
+        value: "3M"
       },
-      animalSpecies: 120,
+      hairDensity: {
+        title: 'taux de pilosité',
+        face: {
+          title: 'Visage',
+          value: "600 poils/cm²"
+        },
+        body: {
+          title: 'Corps',
+          value: "554 poils/cm²"
+        },
+      },
+      animalSpecies: {
+        title: 'Espèces animales',
+        value: 120
+      },
       chemicalComposition: {
-        H2: "83%",
-        He: "15%",
+        title: 'Composition chimique',
+        H2: {
+          title: 'H2',
+          value: "83%"
+        },
+        He: {
+          title: 'He',
+          value: "15%"
+        },
         CH4: "2,3%",
       },
     },
@@ -109,50 +276,122 @@ export const planetsArray = [
     size: 2,
     speed: 1.62,
     distance: 4,
-    minTemperature: -300,
-    maxTemperature: 25,
+    minTemperature: {
+      title: 'Temperature Min.',
+      value: -300
+    },
+    maxTemperature: {
+      title: 'Temperature Max.',
+      value: 25
+    },
     color: "#00ff00",
     characteristics: {
-      surfaceArea: "144,798,500 km²",
-      volume: "1.6318 × 10¹¹ km³",
-      mass: "6.4185 × 10²³ kg",
+      title: 'Caractéristiques',
+      surfaceArea:{
+        title: 'Surface',
+        value: "144,798,500 km²"
+      },
+      volume: {
+        title: 'Volume',
+        value: "1.6318 × 10¹¹ km³"
+      },
+      mass: {
+        title: 'Masse',
+        value: "6.4185 × 10²³ kg"
+      },
       gravity: "3.711 m/s²",
-      shape: "Bulles",
+      shape: {
+        title: 'Forme',
+        value: "Bulles"
+      },
     },
     atmosphericConditions: {
-      density: "0.020 kg/m³",
-      scaleHeight: "11.1 km",
-      molarMass: "43.341 g/mol",
+      title: 'Conditions atmosphériques',
+      density: {
+        title: 'Densité',
+        value: "0.020 kg/m³"
+      },
+      scaleHeight: {
+        title: "Hauteur de l'échelle",
+        value: "11.1 km"
+      },
+      molarMass: {
+        title: 'Masse molaire',
+        value: "43.341 g/mol"
+      },
       components: {
-        CO2: "96%",
+        CO2: {
+          title: 'C02',
+          value: "96%"
+        },
         Argon: "1.93%",
       },
     },
     meteorological: {
-      temperature: "462 °C",
-      sunlightHours: "29.5 days",
-      brightness: "97%",
-      forecast: {
-        hourly: "schéma",
-        tenDay: "schéma",
+      title: 'Métérologique',
+      temperature: {
+        title: 'Température',
+        value: "462 °C"
+      },
+      sunlightHours: {
+        title: "Heures d'ensoleillement",
+        value: "29.5 days"
+      },
+      brightness: {
+        title: 'Luminosité',
+        value: "97%"
       },
     },
     context: {
-      politics: "Dictature",
-      health: "VIRUS",
-      technology: "3 GHz (~3 milliards d’opérations par seconde)",
+      title: 'Contexte',
+      politics: {
+        title: 'Situation Politique',
+        value: "Dictature"
+      },
+      health: {
+        title: 'Santé',
+        value: "VIRUS"
+      },
+      technology: {
+        title: 'Technologie',
+        value: "3 GHz (~3 milliards d’opérations par seconde)"
+      },
     },
     military: {
-      population: "3M",
-      hairDensity: {
-        face: "50 poils/cm²",
-        body: "27 poils/cm²",
+      title: 'Militaire',
+      population: {
+        title: 'Population',
+        value: "3M"
       },
-      animalSpecies: 185,
+      hairDensity: {
+        title: 'taux de pilosité',
+        face: {
+          title: 'Visage',
+          value: "50 poils/cm²"
+        },
+        body: {
+          title: 'Corps',
+          value: "27 poils/cm²"
+        },
+      },
+      animalSpecies: {
+        title: 'Espèces animales',
+        value: 185
+      },
       chemicalComposition: {
-        keratin: "87%",
-        sulfurAminoAcids: "10%",
-        CO2: "3%",
+        title: 'Composition chimique',
+        keratin: {
+          title: 'Keratin',
+          value: "87%"
+        },
+        sulfurAminoAcids: {
+          title: 'Acide soufré',
+          value: "10%"
+        },
+        CO2: {
+          title: 'C02',
+          value: "3%"
+        },
       },
     },
   },
@@ -162,42 +401,96 @@ export const planetsArray = [
     size: 1,
     speed: 1.111,
     distance: 3,
-    minTemperature: -300,
-    maxTemperature: 25,
+    minTemperature: {
+      title: 'Temperature Min.',
+      value: -300
+    },
+    maxTemperature: {
+      title: 'Temperature Max.',
+      value: 25
+    },
     color: "#ffff00",
     characteristics: {
-      surfaceArea: "8.0831 × 10⁹ km²",
-      volume: "6.83344 × 10¹³ km³",
-      mass: "8.6810 × 10²⁵ kg",
+      title: 'Caractéristiques',
+      surfaceArea:{
+        title: 'Surface',
+        value: "8.0831 × 10⁹ km²"
+      },
+      volume: {
+        title: 'Volume',
+        value: "6.83344 × 10¹³ km³"
+      },
+      mass: {
+        title: 'Masse',
+        value: "8.6810 × 10²⁵ kg"
+      },
       gravity: "8.87 m/s²",
-      shape: "Fragmenté",
+      shape: {
+        title: 'Forme',
+        value: "Fragmenté"
+      },
     },
     atmosphericConditions: {
+      title: 'Conditions atmosphériques',
       pressure: "10⁻¹⁰ Pa",
     },
     meteorological: {
-      temperature: "-145°C to 128°C",
-      winds: "up to 500 km/h",
-      sunlightHours: "18h",
-      brightness: "94%",
-      forecast: {
-        hourly: "schéma",
-        tenDay: "schéma",
+      title: 'Métérologique',
+      temperature: {
+        title: 'Temperature',
+        value: "-145°C to 128°C"
+      },
+      winds: {
+        title: 'Vents',
+        value: "up to 500 km/h"
+      },
+      sunlightHours: {
+        title: "Heures d'ensoleillement",
+        value: "18h"
+      },
+      brightness: {
+        title: 'Luminosité',
+        value: "94%"
       },
     },
     context: {
-      politics: "Dictature",
-      health: "VIRUS",
-      technology: "473,517 teraflops",
+      title: 'Contexte',
+      politics: {
+        title: 'Situation Politique',
+        value: "Dictature"
+      },
+      health: {
+        title: 'Santé',
+        value: "VIRUS"
+      },
+      technology: {
+        title: 'Technologie',
+        value: "473,517 teraflops"
+      },
     },
     military: {
-      population: "3M",
-      hairDensity: {
-        face: "2 poils/cm²",
-        body: "1 poils/cm²",
+      title: 'Militaire',
+      population: {
+        title: 'Population',
+        value: "3M"
       },
-      animalSpecies: 3,
+      hairDensity: {
+        title: 'taux de pilosité',
+        face: {
+          title: 'Visage',
+          value: "2 poils/cm²"
+        },
+        body: {
+          title: 'Corps',
+          value: "1 poils/cm²"
+        },
+      },
+      animalSpecies: {
+        title: 'Espèces animales',
+        value: 3
+      },
       chemicalComposition: {
+        title: 'Composition chimique',
         aluminum: "25%",
         hydrogen: "12%",
         carbon: "0.29%",
