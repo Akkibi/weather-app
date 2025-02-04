@@ -147,7 +147,7 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
 
   return (
     <>
-      {selectedCategory ? (
+      {selectedCategory && (
         <View style={styles.container}>
           <FlatList<Category>
             data={[
@@ -171,7 +171,8 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
             viewabilityConfig={viewabilityConfig}
           />
         </View>
-      ) : (
+      )}
+      {!selectedCategory &&
         categories.map((cat, index) => (
           <MeteoBtn
             key={cat.id}
@@ -180,10 +181,8 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
             isVisible={cat.id === "military" ? isMilitaryVisible : true}
             top={pointsArray[index].top}
             left={pointsArray[index].left}
-            eventEmitter={eventEmitter}
           />
-        ))
-      )}
+        ))}
     </>
   );
 }

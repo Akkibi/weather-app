@@ -9,7 +9,6 @@ import {
 import useMeteoStore from "@/stores/useMeteoStore";
 import ButtonBackground from "@/components/ButtonBackground";
 import { useScrambleText } from "@/hooks/useScrambleText";
-import { EventEmitter } from "./Experience/Utils/EventEmitter";
 
 type Props = {
   title: string;
@@ -17,7 +16,6 @@ type Props = {
   isVisible: boolean;
   top?: number;
   left?: number;
-  eventEmitter: EventEmitter;
 };
 
 export default function MeteoBtn({
@@ -26,7 +24,6 @@ export default function MeteoBtn({
   isVisible,
   top,
   left,
-  eventEmitter,
 }: Props) {
   const { selectedCategory, setCategory } = useMeteoStore();
   const fadeAnim = useRef(new Animated.Value(0)).current;

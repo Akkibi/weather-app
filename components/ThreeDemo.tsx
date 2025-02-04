@@ -1,29 +1,29 @@
 import { ExpoWebGLRenderingContext, GLView } from "expo-gl";
-import { Renderer, TextureLoader } from "expo-three";
-import React, { useEffect, useRef } from "react";
-import { View } from "react-native";
+import { TextureLoader, THREE } from "expo-three";
+import { TouchEvent, useEffect, useRef, useState } from "react";
+import { BoxGeometry, Mesh, MeshNormalMaterial, SphereGeometry } from "three";
+import Renderer from "./Experience/Renderer";
+import Scene from "./Experience/Scene";
+import Camera from "./Experience/Camera";
+import CameraGroup from "./Experience/CameraGroup";
+import { EventEmitter } from "./Experience/Utils/EventEmitter";
+import Raycaster from "./Experience/Utils/Raycaster";
+import Sizes from "./Experience/Utils/Sizes";
+import CameraOrigin from "./Experience/CameraOrigin";
+import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import {
   Gesture,
-  GestureHandlerRootView,
   GestureDetector,
+  GestureHandlerRootView,
 } from "react-native-gesture-handler";
-import {
-  AmbientLight,
-  BoxGeometry,
-  Fog,
-  GridHelper,
-  Mesh,
-  MeshNormalMaterial,
-  MeshStandardMaterial,
-  PerspectiveCamera,
-  PointLight,
-  Scene,
-  SpotLight,
-} from "three";
-import MeteoSection from "./MeteoSection";
+import MeteoSection from "@/components/MeteoSection";
+import NavBar from "./ui/NavBar";
 
 export default function ThreeDemo() {
+  // const { isFocus, reset } = usePlanetStore();
   let timeout: ReturnType<typeof requestAnimationFrame>;
+  // const singleTap = Gesture.Tap();
+
   // const singleTap = Gesture.Tap();
 
   const handleBackPressRef = useRef(() =>
@@ -34,55 +34,72 @@ export default function ThreeDemo() {
     return () => clearTimeout(timeout);
   }, []);
 
+  const eventEmitter = new EventEmitter();
   const onContextCreate = async (gl: ExpoWebGLRenderingContext) => {
-    const { drawingBufferWidth: width, drawingBufferHeight: height } = gl;
-    const sceneColor = 0x6ad6f0;
+    console.log(gl);
+    const sizes = new Sizes(gl);
+    const camera = new Camera(eventEmitter, sizes);
+    const scene = new Scene(eventEmitter, camera);
+    const cameraGroup = new CameraGroup(eventEmitter, camera);
+    const cameraOrigin = new CameraOrigin(eventEmitter, cameraGroup);
+    scene.add(cameraOrigin.instance);
+    const renderer = new Renderer(eventEmitter, gl);
+    const raycaster = new Raycaster(
+      eventEmitter,
+      sizes,
+      camera,
+      scene,
+      cameraOrigin,
+      scene.planets
+    );
+    console.log(raycaster);
 
-    // Create a WebGLRenderer without a DOM element
-    const renderer = new Renderer({ gl });
-    renderer.setSize(width, height);
-    renderer.setClearColor(sceneColor);
-
-    const camera = new PerspectiveCamera(70, width / height, 0.01, 1000);
-    camera.position.set(2, 5, 5);
-
-    const scene = new Scene();
-    scene.fog = new Fog(sceneColor, 1, 10000);
-    scene.add(new GridHelper(10, 10));
-
-    const ambientLight = new AmbientLight(0x101010);
-    scene.add(ambientLight);
-
-    const pointLight = new PointLight(0xffffff, 2, 1000, 1);
-    pointLight.position.set(0, 200, 200);
-    scene.add(pointLight);
-
-    const spotLight = new SpotLight(0xffffff, 0.5);
-    spotLight.position.set(0, 500, 100);
-    spotLight.lookAt(scene.position);
-    scene.add(spotLight);
-
-    const geometry = new BoxGeometry(1, 1, 1);
-    const material = new MeshNormalMaterial();
-    const cube = new Mesh(geometry, material);
-
-    scene.add(cube);
-
-    camera.lookAt(cube.position);
-
-    function update() {
-      cube.rotation.y += 0.05;
-      cube.rotation.x += 0.025;
+    function update(time: number) {
+      scene.planets.forEach((sphere) => {
+        sphere.update(time / 75 + 1000);
+        // Normalize time to seconds
+      });
+      eventEmitter.trigger("animate", [time]);
     }
+
+    var clock = new THREE.Clock(true);
 
     // Setup an animation loop
     const render = () => {
+      clock.getDelta();
       timeout = requestAnimationFrame(render);
-      update();
-      renderer.render(scene, camera);
+      update(clock.elapsedTime);
+      renderer.render(scene.instance, camera.instance);
       gl.endFrameEXP();
     };
     render();
+
+    // Update the handleBackPressRef to trigger the eventEmitter
+    handleBackPressRef.current = () => {
+      eventEmitter.trigger("back");
+    };
+
+    // define touchevent triggers
+    dragGesture
+      .runOnJS(true)
+      .onStart((_e) => {
+        // console.log("onDragStart", _e);
+        eventEmitter.trigger("touchStart", [_e]);
+      })
+      .onUpdate((_e) => {
+        // console.log("onDragMove", _e);
+        eventEmitter.trigger("touchMove", [_e]);
+      })
+      .onEnd((_e) => {
+        // console.log("onDragEnd", _e);
+        eventEmitter.trigger("touchEnd", [_e]);
+      });
+
+    singleTap.runOnJS(true).onEnd((_event, success) => {
+      if (success) {
+        eventEmitter.trigger("click", [_event]);
+      }
+    });
   };
 
   const singleTap = Gesture.Tap().runOnJS(true);

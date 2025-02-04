@@ -70,6 +70,4 @@ export default class Raycaster {
       console.warn("no intersects");
     }
   }
-
-  setState() {}
 }

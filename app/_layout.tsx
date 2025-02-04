@@ -40,6 +40,9 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    NeoPixel: require("../assets/fonts/neopixel-regular.otf"),
+    ClashDisplay: require("../assets/fonts/ClashDisplay-Regular.ttf"),
+    ClashDisplayMedium: require("../assets/fonts/ClashDisplay-Medium.ttf"),
   });
 
   useEffect(() => {
@@ -53,19 +56,11 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <View style={{ flex: 1 }}>
-        <PortalProvider>
-          <View style={{ flex: 1 }}>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" />
-            </Stack>
-          </View>
-          <PortalHost name="Modal" />
-        </PortalProvider>
-      </View>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <View style={{ flex: 1 }}>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+    </View>
   );
 }
