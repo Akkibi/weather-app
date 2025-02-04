@@ -81,12 +81,6 @@ export default function MeteoDetail({ category, planetData, isVisible = false }:
       stickyHeaderIndices={[0]}
     >
 
-      <Animated.View style={[styles.categoryHeader, { opacity: fadeAnim }]}>
-        <Text style={styles.categoryTitle}>
-          {useScrambleText(categoryTitles[category], isScrambling, {})}
-        </Text>
-      </Animated.View>
-
       <View style={styles.content}>
 
         {subcategories.map((subcategory, index) => (

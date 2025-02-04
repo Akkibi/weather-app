@@ -34,6 +34,7 @@
     "expo-linking": "~7.0.4",
     "expo-notifications": "^0.29.12",
     "expo-router": "~4.0.16",
+    "expo-sensors": "~14.0.2",
     "expo-splash-screen": "^0.29.20",
     "expo-status-bar": "~2.0.1",
     "expo-symbols": "^0.2.1",
@@ -52,8 +53,7 @@
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
     "three": "^0.172.0",
-    "zustand": "^5.0.3",
-    "expo-sensors": "~14.0.2"
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

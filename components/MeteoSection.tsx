@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   View,
   StyleSheet,
   Dimensions,
   FlatList,
   ViewToken,
+  Text,
 } from "react-native";
 import { Gyroscope } from 'expo-sensors';
 import usePlanetStore from "@/stores/usePlanetStore";
@@ -13,6 +14,7 @@ import MeteoBtn from "@/components/MeteoBtn";
 import MeteoDetail from "@/components/MeteoDetail";
 import { planetsArray, pointsArray } from "@/components/Experience/Utils/data";
 import { EventEmitter } from "./Experience/Utils/EventEmitter";
+import { useScrambleText } from "@/hooks/useScrambleText";
 
 let ScreenHeight = Dimensions.get("window").height;
 
@@ -38,6 +40,36 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
   const [isMilitaryVisible, setIsMilitaryVisible] = useState(false);
   const [gyroscopeData, setGyroscopeData] = useState<GyroscopeData>({ x: 0, y: 0, z: 0 });
   const [subscription, setSubscription] = useState<any>(null);
+  const [currentVisibleCategory, setCurrentVisibleCategory] = useState<string | null>(null);
+
+  const categories: Category[] = useMemo(() => [
+    {
+      id: "characteristics",
+      label: "Caractéristiques",
+    },
+    {
+      id: "atmosphericConditions",
+      label: "Cycle Planétaire",
+    },
+    {
+      id: "meteorological",
+      label: "Météorologique",
+    },
+    {
+      id: "context",
+      label: "Les Actualités",
+    },
+    {
+      id: "military",
+      label: "Info. Militaires",
+    },
+  ], []);
+
+  const scrambledCategoryLabel = useScrambleText(
+    categories.find(cat => cat.id === currentVisibleCategory)?.label || "",
+    !!currentVisibleCategory,
+    {}
+  );
 
   useEffect(() => {
     let gyroSubscription: any;
@@ -76,10 +108,15 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
     if (!isMilitaryVisible && selectedCategory === 'military') {
       setCategory(null);
     }
-  }, [isMilitaryVisible, selectedCategory]);
+  }, [isMilitaryVisible, selectedCategory, setCategory]);
 
   const onViewableItemsChanged = React.useCallback(({ viewableItems }: { viewableItems: ViewToken[] }) => {
     setVisibleItems(viewableItems.map(item => (item.item as Category).id));
+
+    if (viewableItems.length > 0) {
+      const visibleCategory = (viewableItems[0].item as Category).id;
+      setCurrentVisibleCategory(visibleCategory);
+    }
   }, []);
 
   const viewabilityConfig = {
@@ -87,29 +124,6 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
   };
 
   if (!isFocus) return null;
-
-  const categories: Category[] = [
-    {
-      id: "characteristics",
-      label: "Caractéristiques",
-    },
-    {
-      id: "atmosphericConditions",
-      label: "Cycle Planétaire",
-    },
-    {
-      id: "meteorological",
-      label: "Météorologique",
-    },
-    {
-      id: "context",
-      label: "Les Actualités",
-    },
-    {
-      id: "military",
-      label: "Info. Militaires",
-    },
-  ];
 
   const otherCategories = categories.filter(
     (cat) => cat.id !== selectedCategory && (cat.id !== 'military' || isMilitaryVisible)
@@ -140,6 +154,14 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
     <>
       {selectedCategory && (
         <View style={styles.container}>
+          {currentVisibleCategory && (
+            <View style={styles.categoryHeader}>
+              <Text style={styles.categoryHeaderText}>
+                {scrambledCategoryLabel}
+              </Text>
+            </View>
+          )}
+
           <FlatList<Category>
             data={[
               ...(selectedCategory === 'military' && !isMilitaryVisible
@@ -183,5 +205,26 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     width: "100%",
     minHeight: ScreenHeight,
+  },
+  categoryHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0, 0, 0, 1)',
+    paddingTop: 64,
+    paddingBottom: 24,
+    zIndex: 10,
+    alignItems: 'center',
+
+  },
+  categoryHeaderText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "400",
+    letterSpacing: 5,
+    fontFamily: 'ClashDisplayBold',
+    textTransform: 'uppercase',
+    textAlign: 'center',
   },
 });
