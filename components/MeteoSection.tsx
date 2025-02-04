@@ -160,7 +160,7 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
 
   return (
     <>
-      <ModalInvade isInvasionModalVisible={isInvasionModalVisible} setIsInvasionModalVisible={setIsInvasionModalVisible} />
+      <ModalInvade isVisible={isInvasionModalVisible} setVisible={setIsInvasionModalVisible} type="invade" onPress={()=>{console.log('INVAAADE!!!')}} />
       {selectedCategory && (
         <View style={styles.container}>
           {currentVisibleCategory && (

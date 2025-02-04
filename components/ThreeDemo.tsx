@@ -21,8 +21,11 @@ import NavBar from "./ui/NavBar";
 import NotificationBtn from "./ui/NotificationButton";
 import usePlanetStore from "@/stores/usePlanetStore";
 import Planet from "./Experience/World/Planet";
+import ModalInvade from "./ModalInvade";
 
 export default function ThreeDemo() {
+  const [isInvasionModalVisible, setIsInvasionModalVisible] = useState(false);
+
   // const { isFocus, reset } = usePlanetStore();
   let timeout: ReturnType<typeof requestAnimationFrame>;
 
@@ -93,6 +96,7 @@ export default function ThreeDemo() {
       eventEmitter.trigger("planetFocus", [scene.planets[2]]);
       usePlanetStore.getState().setFocus(true);
       usePlanetStore.getState().setPlanetFocused(scene.planets[2] as Planet);
+      setIsInvasionModalVisible(false)
     };
 
     // define touchevent triggers
@@ -125,16 +129,13 @@ export default function ThreeDemo() {
 
   return (
     <GestureHandlerRootView style={styles.gestureContainer}>
-      {/* <View style={styles.container}>
-        <InfoButton eventEmitter={eventEmitter}>Hello there</InfoButton>
-        <InfoButton eventEmitter={eventEmitter}>Hello there</InfoButton>
-      </View> */}
       <View style={styles.container}>
         <GestureDetector gesture={taps}>
           <GLView style={{ flex: 1 }} onContextCreate={onContextCreate} />
         </GestureDetector>
         <MeteoSection eventEmitter={eventEmitter} />
-        <NotificationBtn eventEmitter={eventEmitter} onPress={()=>{handleFocusRef.current()}}  />
+        <NotificationBtn eventEmitter={eventEmitter} onPress={()=>{setIsInvasionModalVisible(true)}}  />
+        <ModalInvade isVisible={isInvasionModalVisible} setVisible={setIsInvasionModalVisible} onPress={() => { handleFocusRef.current(); } } type={"recap"} />
         <NavBar onPress={()=>{handleBackPressRef.current()}} />
       </View>
     </GestureHandlerRootView>

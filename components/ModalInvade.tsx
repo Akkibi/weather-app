@@ -9,52 +9,98 @@ import {
 import ModalSvg from "./svg/modalSvg";
 import BtnBg from "./svg/BtnBg";
 import ModalBg from "./svg/ModalBg";
+import SmallModalBg from "./svg/SmallModalBg";
 
 interface ModalProps {
-  isInvasionModalVisible: boolean;
-  setIsInvasionModalVisible: (isInvasionModalVisible: boolean) => void
+  isVisible: boolean;
+  setVisible: (isInvasionModalVisible: boolean) => void
+  onPress: () => void
+  type: "recap" | "invade"
 }
 
-export default function ModalInvade({ isInvasionModalVisible, setIsInvasionModalVisible } : ModalProps) {
-  return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={isInvasionModalVisible}
-      onRequestClose={() => setIsInvasionModalVisible(false)}
-    >
-      <View style={styles.modalContainer}>
-        <ModalBg />
-        <View style={styles.modalContent}>
-          <View style={styles.modalHeadContent}>
-            <ModalSvg width={24} height={24}/>
-          </View>
+export default function ModalInvade({ isVisible, setVisible, onPress, type = 'recap' } : ModalProps) {
 
-          <View style={styles.modalMainContent}>
-            <Text style={styles.modalMainText}>Bouleversement politique en cours sur la planète Ell. Voulez-vous accéder aux informations ?</Text>
-            <Text style={styles.modalText}>Rappel : {"\n"}Distance : 1789Au {"\n"}Taux de pilosité : 120 poils/cm2_ 33 poils/cm2 {"\n"}Faiblesse : Chats</Text>
-          </View>
-          <View style={styles.modalActions}>
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={() => setIsInvasionModalVisible(false)}
-            >
-              <BtnBg />
-              <Text style={styles.modalButtonText}>Rejoindre</Text>
-            </TouchableOpacity>
+  if (type === "invade") {
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isVisible}
+        onRequestClose={() => setVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <SmallModalBg />
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeadContent}>
+              <ModalSvg width={24} height={24}/>
+            </View>
 
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={() => setIsInvasionModalVisible(false)}
-            >
-              <BtnBg />
-              <Text style={[styles.modalButtonText, {paddingHorizontal: 43}]}>Non</Text>
-            </TouchableOpacity>
+            <View style={styles.modalMainContent}>
+              <Text style={styles.modalMainText}>Voulez vous asservir cette planète ?</Text>
+            </View>
+            <View style={[styles.modalActions, {justifyContent: 'center'}]}>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => onPress()}
+              >
+                <BtnBg />
+                <Text style={[styles.modalButtonText, { paddingHorizontal: 50,}]}>Oui</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => setVisible(false)}
+              >
+                <BtnBg />
+                <Text style={[styles.modalButtonText, { paddingHorizontal: 50,}]}>Non</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
-    </Modal>
-  );
+      </Modal>
+    );
+  }
+  else {
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isVisible}
+        onRequestClose={() => setVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <ModalBg />
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeadContent}>
+              <ModalSvg width={24} height={24}/>
+            </View>
+
+            <View style={styles.modalMainContent}>
+              <Text style={styles.modalMainText}>Bouleversement politique en cours sur la planète Ell. Voulez-vous accéder aux informations ?</Text>
+              <Text style={styles.modalText}>Rappel : {"\n"}Distance : 1789Au {"\n"}Taux de pilosité : 120 poils/cm2_ 33 poils/cm2 {"\n"}Faiblesse : Chats</Text>
+            </View>
+            <View style={styles.modalActions}>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => onPress()}
+              >
+                <BtnBg />
+                <Text style={styles.modalButtonText}>Rejoindre</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => setVisible(false)}
+              >
+                <BtnBg />
+                <Text style={[styles.modalButtonText, {paddingHorizontal: 43}]}>Non</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
 }
 
 
