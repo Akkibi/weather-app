@@ -6,10 +6,10 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
-import ModalSvg from "./svg/modalSvg";
-import BtnBg from "./svg/BtnBg";
-import ModalBg from "./svg/ModalBg";
-import SmallModalBg from "./svg/SmallModalBg";
+import ModalSvg from "@/components/svg/ModalSvg";
+import BtnBg from "@/components/svg/BtnBg";
+import ModalBg from "@/components/svg/ModalBg";
+import SmallModalBg from "@/components/svg/SmallModalBg";
 
 interface ModalProps {
   isVisible: boolean;
