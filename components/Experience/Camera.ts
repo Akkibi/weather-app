@@ -26,7 +26,7 @@ export default class Camera {
     // Create the PerspectiveCamera
     this.instance = new THREE.PerspectiveCamera(
       this.fov,
-      0.5,
+      this.aspect,
       this.near,
       this.far,
     );
