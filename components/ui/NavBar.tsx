@@ -192,7 +192,8 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontSize: 18,
-    fontFamily: 'NeoPixel'
+    fontFamily: 'NeoPixel',
+    textTransform: 'uppercase'
   },
   backButton: {
     flex: 1,
