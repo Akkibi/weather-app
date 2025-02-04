@@ -18,6 +18,9 @@ import {
 } from "react-native-gesture-handler";
 import MeteoSection from "@/components/MeteoSection";
 import NavBar from "./ui/NavBar";
+import NotificationBtn from "./ui/NotificationButton";
+import usePlanetStore from "@/stores/usePlanetStore";
+import Planet from "./Experience/World/Planet";
 
 export default function ThreeDemo() {
   // const { isFocus, reset } = usePlanetStore();
@@ -33,7 +36,16 @@ export default function ThreeDemo() {
     return () => clearTimeout(timeout);
   }, []);
 
+  const handleFocusRef = useRef(() =>
+    console.error("handleFocusRef not loaded"),
+  );
+  useEffect(() => {
+    // Clear the animation loop when the component unmounts
+    return () => clearTimeout(timeout);
+  }, []);
+
   const eventEmitter = new EventEmitter();
+
   const onContextCreate = async (gl: ExpoWebGLRenderingContext) => {
     console.log(gl);
     const sizes = new Sizes(gl);
@@ -49,12 +61,11 @@ export default function ThreeDemo() {
       camera,
       scene,
       cameraOrigin,
-      scene.planets,
+      scene?.planets,
     );
-    console.log(raycaster);
 
     function update(time: number) {
-      scene.planets.forEach((sphere) => {
+      scene?.planets.forEach((sphere) => {
         sphere.update(time / 75 + 1000);
         // Normalize time to seconds
       });
@@ -68,7 +79,7 @@ export default function ThreeDemo() {
       clock.getDelta();
       timeout = requestAnimationFrame(render);
       update(clock.elapsedTime);
-      renderer.render(scene.instance, camera.instance);
+      renderer.render(scene!.instance, camera.instance);
       gl.endFrameEXP();
     };
     render();
@@ -76,6 +87,12 @@ export default function ThreeDemo() {
     // Update the handleBackPressRef to trigger the eventEmitter
     handleBackPressRef.current = () => {
       eventEmitter.trigger("back");
+    };
+
+    handleFocusRef.current = () => {
+      eventEmitter.trigger("planetFocus", [scene.planets[2]]);
+      usePlanetStore.getState().setFocus(true);
+      usePlanetStore.getState().setPlanetFocused(scene.planets[2] as Planet);
     };
 
     // define touchevent triggers
@@ -117,6 +134,7 @@ export default function ThreeDemo() {
           <GLView style={{ flex: 1 }} onContextCreate={onContextCreate} />
         </GestureDetector>
         <MeteoSection eventEmitter={eventEmitter} />
+        <NotificationBtn eventEmitter={eventEmitter} onPress={()=>{handleFocusRef.current()}}  />
         <NavBar onPress={()=>{handleBackPressRef.current()}} />
       </View>
     </GestureHandlerRootView>
