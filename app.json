@@ -1,5 +1,6 @@
 {
   "expo": {
+    "assetBundlePatterns": ["assets/**/*"],
     "name": "gobelins-test",
     "slug": "gobelins-test",
     "version": "1.0.0",
