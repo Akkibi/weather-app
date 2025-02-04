@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Animated } from 'react-native';
 import Svg, { Path, Rect } from 'react-native-svg';
 import usePlanetStore from "@/stores/usePlanetStore";
 import useMeteoStore from "@/stores/useMeteoStore";
@@ -12,18 +12,55 @@ interface NavBarProps {
 export default function NavBar({onPress}: NavBarProps) {
   const { isFocus, planetFocused } = usePlanetStore();
   const { selectedCategory, setCategory } = useMeteoStore();
+
+  const bottomAnimation = React.useRef(new Animated.Value(-70)).current;
+
   const [isScrambling, setIsScrambling] = useState(false);
+  const [shouldScramble, setShouldScramble] = useState(false);
 
   const planetName = planetFocused?.name ?? "TX 06";
-  const scrambledName = useScrambleText(planetName, isScrambling, {});
+  const scrambledName = useScrambleText(planetName, shouldScramble, {});
 
   useEffect(() => {
-    setIsScrambling(true);
-    const timer = setTimeout(() => {
-      setIsScrambling(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [planetFocused]);
+    setIsScrambling(false);
+    setShouldScramble(false);
+
+    Animated.timing(bottomAnimation, {
+      toValue: isFocus ? 30 : -75,
+      duration: 300,
+      useNativeDriver: false
+    }).start();
+  }, [isFocus]);
+
+  useEffect(() => {
+    const listener = bottomAnimation.addListener(({ value }) => {
+      if (value >= -42 && !isScrambling) {
+        setIsScrambling(true);
+
+        setTimeout(() => {
+          setShouldScramble(true);
+        }, 120);
+      }
+
+      if (value <= -60) {
+        setIsScrambling(false);
+        setShouldScramble(false);
+      }
+    });
+
+    return () => {
+      bottomAnimation.removeListener(listener);
+    };
+  }, [isScrambling]);
+
+  useEffect(() => {
+    if (shouldScramble) {
+      const timer = setTimeout(() => {
+        setShouldScramble(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [shouldScramble]);
 
   const handleBack = () => {
     if (isFocus) {
@@ -36,7 +73,12 @@ export default function NavBar({onPress}: NavBarProps) {
   }
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={[
+      styles.container,
+      {
+        bottom: bottomAnimation
+      }
+    ]}>
       <View style={styles.content}>
         <Svg
           width="100%"
@@ -94,14 +136,13 @@ export default function NavBar({onPress}: NavBarProps) {
           </View>
         </View>
       </View>
-    </View>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 30,
     left: 0,
     width: '100%',
     justifyContent: 'flex-end',
