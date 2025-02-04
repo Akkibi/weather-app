@@ -6,6 +6,8 @@ import {
   FlatList,
   ViewToken,
   Text,
+  Modal,
+  TouchableOpacity,
 } from "react-native";
 import { Gyroscope } from 'expo-sensors';
 import usePlanetStore from "@/stores/usePlanetStore";
@@ -15,6 +17,7 @@ import MeteoDetail from "@/components/MeteoDetail";
 import { planetsArray, pointsArray } from "@/components/Experience/Utils/data";
 import { EventEmitter } from "./Experience/Utils/EventEmitter";
 import { useScrambleText } from "@/hooks/useScrambleText";
+import ModalInvade from "@/components/ModalInvade";
 
 let ScreenHeight = Dimensions.get("window").height;
 
@@ -41,6 +44,7 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
   const [gyroscopeData, setGyroscopeData] = useState<GyroscopeData>({ x: 0, y: 0, z: 0 });
   const [subscription, setSubscription] = useState<any>(null);
   const [currentVisibleCategory, setCurrentVisibleCategory] = useState<string | null>(null);
+  const [isInvasionModalVisible, setIsInvasionModalVisible] = useState(false);
 
   const categories: Category[] = useMemo(() => [
     {
@@ -83,6 +87,9 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
           const rotationThreshold = 2.5;
           if (Math.abs(data.x) > rotationThreshold) {
             setIsMilitaryVisible(true);
+          }
+          else if (Math.abs(data.z) > rotationThreshold) {
+            setIsInvasionModalVisible(true);
           }
         });
 
@@ -132,6 +139,7 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
   eventEmitter.on("back", () => {
     reset();
     setIsMilitaryVisible(false);
+    setIsInvasionModalVisible(false);
   });
 
   const currentPlanet = planetFocused;
@@ -152,6 +160,7 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
 
   return (
     <>
+      <ModalInvade isInvasionModalVisible={isInvasionModalVisible} setIsInvasionModalVisible={setIsInvasionModalVisible} />
       {selectedCategory && (
         <View style={styles.container}>
           {currentVisibleCategory && (
@@ -216,7 +225,6 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     zIndex: 10,
     alignItems: 'center',
-
   },
   categoryHeaderText: {
     color: "white",
