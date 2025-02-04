@@ -46,7 +46,7 @@ export default function NavBar({onPress}: NavBarProps) {
         >
           <Path
             d="M1 41V1H297V41L282.5 49H15L1 41Z"
-            fill="transparent"
+            fill="#000"
             stroke="#fff"
             strokeWidth="1"
           />
