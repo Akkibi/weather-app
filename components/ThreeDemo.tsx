@@ -22,6 +22,7 @@ import NotificationBtn from "./ui/NotificationButton";
 import usePlanetStore from "@/stores/usePlanetStore";
 import Planet from "./Experience/World/Planet";
 import ModalInvade from "./ModalInvade";
+import Distance from "./Distance";
 
 export default function ThreeDemo() {
   const [isInvasionModalVisible, setIsInvasionModalVisible] = useState(false);
@@ -137,6 +138,7 @@ export default function ThreeDemo() {
         <NotificationBtn eventEmitter={eventEmitter} onPress={()=>{setIsInvasionModalVisible(true)}}  />
         <ModalInvade isVisible={isInvasionModalVisible} setVisible={setIsInvasionModalVisible} onPress={() => { handleFocusRef.current(); } } type={"recap"} />
         <NavBar onPress={()=>{handleBackPressRef.current()}} />
+        <Distance />
       </View>
     </GestureHandlerRootView>
   );
