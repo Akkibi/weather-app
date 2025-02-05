@@ -24,7 +24,7 @@ export default class Raycaster {
     public camera: Camera,
     private scene: Scene,
     private cameraOrigin: CameraOrigin,
-    private planets: Planet[],
+    private planets: Planet[]
   ) {
     this.raycaster = new THREE.Raycaster();
     this.currentIntersect = null;
@@ -41,12 +41,12 @@ export default class Raycaster {
       "click",
       (event: GestureStateChangeEvent<TapGestureHandlerEventPayload>) => {
         this.onPlanetSelect(event);
-      },
+      }
     );
   }
 
   onPlanetSelect(
-    event: GestureStateChangeEvent<TapGestureHandlerEventPayload>,
+    event: GestureStateChangeEvent<TapGestureHandlerEventPayload>
   ) {
     // console.error(
     //   "raycast",

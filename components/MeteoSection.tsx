@@ -7,7 +7,7 @@ import {
   ViewToken,
   Text,
 } from "react-native";
-import { Gyroscope } from 'expo-sensors';
+import { Gyroscope } from "expo-sensors";
 import usePlanetStore from "@/stores/usePlanetStore";
 import useMeteoStore from "@/stores/useMeteoStore";
 import MeteoBtn from "@/components/MeteoBtn";
@@ -40,7 +40,11 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
   const { selectedCategory, setCategory } = useMeteoStore();
   const [visibleItems, setVisibleItems] = useState<string[]>([]);
   const [isMilitaryVisible, setIsMilitaryVisible] = useState(false);
-  const [gyroscopeData, setGyroscopeData] = useState<GyroscopeData>({ x: 0, y: 0, z: 0 });
+  const [gyroscopeData, setGyroscopeData] = useState<GyroscopeData>({
+    x: 0,
+    y: 0,
+    z: 0,
+  });
   const [subscription, setSubscription] = useState<any>(null);
   const [currentVisibleCategory, setCurrentVisibleCategory] = useState<string | null>(null);
   const [isInvasionModalVisible, setIsInvasionModalVisible] = useState(false);
@@ -96,7 +100,7 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
         await Gyroscope.setUpdateInterval(100);
         setSubscription(gyroSubscription);
       } catch (error) {
-        console.error('Failed to start gyroscope:', error);
+        console.error("Failed to start gyroscope:", error);
       }
     };
 
@@ -112,7 +116,7 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
   }, [isFocus]);
 
   useEffect(() => {
-    if (!isMilitaryVisible && selectedCategory === 'military') {
+    if (!isMilitaryVisible && selectedCategory === "military") {
       setCategory(null);
     }
   }, [isMilitaryVisible, selectedCategory, setCategory]);
@@ -127,13 +131,15 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
   }, []);
 
   const viewabilityConfig = {
-    itemVisiblePercentThreshold: 10
+    itemVisiblePercentThreshold: 10,
   };
 
   if (!isFocus) return null;
 
   const otherCategories = categories.filter(
-    (cat) => cat.id !== selectedCategory && (cat.id !== 'military' || isMilitaryVisible)
+    (cat) =>
+      cat.id !== selectedCategory &&
+      (cat.id !== "military" || isMilitaryVisible)
   );
 
   eventEmitter.on("back", () => {
@@ -145,7 +151,7 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
   const currentPlanet = planetFocused;
 
   const renderMeteoDetail = ({ item }: { item: Category }) => {
-    if (item.id === 'military' && !isMilitaryVisible) {
+    if (item.id === "military" && !isMilitaryVisible) {
       return null;
     }
 
@@ -181,10 +187,17 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
 
           <FlatList<Category>
             data={[
-              ...(selectedCategory === 'military' && !isMilitaryVisible
+              ...(selectedCategory === "military" && !isMilitaryVisible
                 ? []
-                : [{ id: selectedCategory, label: categories.find(cat => cat.id === selectedCategory)?.label || "" }]),
-              ...otherCategories
+                : [
+                    {
+                      id: selectedCategory,
+                      label:
+                        categories.find((cat) => cat.id === selectedCategory)
+                          ?.label || "",
+                    },
+                  ]),
+              ...otherCategories,
             ]}
             renderItem={renderMeteoDetail}
             keyExtractor={(item) => item.id}
@@ -217,7 +230,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: ScreenHeight,
-    backgroundColor: "rgba(0, 0, 0, 0.25)"
+    backgroundColor: "rgba(0, 0, 0, 0.25)",
   },
   scrollContent: {
     flexGrow: 1,

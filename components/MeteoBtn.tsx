@@ -1,5 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Text, StyleSheet, Pressable, DimensionValue, Animated } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  Pressable,
+  DimensionValue,
+  Animated,
+} from "react-native";
 import useMeteoStore from "@/stores/useMeteoStore";
 import ButtonBackground from "@/components/ButtonBackground";
 import { useScrambleText } from "@/hooks/useScrambleText";
@@ -17,7 +23,7 @@ export default function MeteoBtn({
   category,
   isVisible,
   top,
-  left
+  left,
 }: Props) {
   const { selectedCategory, setCategory } = useMeteoStore();
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -65,15 +71,12 @@ export default function MeteoBtn({
         {
           top: `${top ?? 0}%`,
           left: `${left ?? 0}%`,
-          opacity: fadeAnim
+          opacity: fadeAnim,
         },
         selectedCategory === category && styles.selected,
       ]}
     >
-      <Pressable
-        onPress={handlePress}
-        style={styles.pressable}
-      >
+      <Pressable onPress={handlePress} style={styles.pressable}>
         <ButtonBackground />
         <Text style={styles.text}>{scrambledTitle}</Text>
       </Pressable>

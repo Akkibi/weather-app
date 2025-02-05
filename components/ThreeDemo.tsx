@@ -29,6 +29,7 @@ export default function ThreeDemo() {
 
   // const { isFocus, reset } = usePlanetStore();
   let timeout: ReturnType<typeof requestAnimationFrame>;
+  // const singleTap = Gesture.Tap();
 
   // const singleTap = Gesture.Tap();
 
@@ -144,7 +145,6 @@ export default function ThreeDemo() {
   );
 }
 const styles = StyleSheet.create({
-
   gestureContainer: {
     flex: 1,
     alignItems: "center",

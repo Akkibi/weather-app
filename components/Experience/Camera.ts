@@ -14,7 +14,7 @@ export default class Camera {
     public fov: number = 75,
     private near: number = 0.1,
     private far: number = 100,
-    private distance: number = 10,
+    private distance: number = 10
   ) {
     // Initialize camera properties
     this.aspect = this.sizes.width / this.sizes.height;
@@ -28,7 +28,7 @@ export default class Camera {
       this.fov,
       this.aspect,
       this.near,
-      this.far,
+      this.far
     );
 
     // Set initial position
@@ -49,7 +49,7 @@ export default class Camera {
       "interpolateToFocus",
       (progress: number, planet: Planet) => {
         this.gotoPosition(progress, planet);
-      },
+      }
     );
   }
 

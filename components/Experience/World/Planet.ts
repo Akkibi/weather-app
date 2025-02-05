@@ -1,4 +1,7 @@
 import { THREE } from "expo-three";
+import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { Asset } from "expo-asset";
+// import bubble from "../../../assets/models/bubble_model.glb";
 
 type SphereConfig = {
   military: any;
@@ -14,6 +17,7 @@ type SphereConfig = {
   speed: number;
   distance: number;
   color: string;
+  modelPath?: string;
 };
 
 type Characteristics = {
@@ -71,8 +75,7 @@ export default class Planet {
   public speed: number;
   public distance: number;
   public color: string;
-  private mesh: THREE.Mesh;
-  public instance: THREE.Group;
+  public instance: THREE.Group = new THREE.Group();
   public angle: number;
   public minTemperature: number;
   public maxTemperature: number;
@@ -81,7 +84,9 @@ export default class Planet {
   public meteorological: Meteorological;
   public context: Context;
   public military: Military;
-
+  private modelPath: string | null = null;
+  private model: THREE.Object3D | null = null;
+  public rayCacher: THREE.Mesh;
 
   constructor(config: SphereConfig) {
     this.name = config.name;
@@ -91,15 +96,31 @@ export default class Planet {
     this.color = config.color;
     this.id = config.id;
     this.angle = 0;
-    this.minTemperature = config.minTemperature
-    this.maxTemperature = config.maxTemperature
+    this.minTemperature = config.minTemperature;
+    this.maxTemperature = config.maxTemperature;
     this.characteristics = config.characteristics;
     this.atmosphericConditions = config.atmosphericConditions;
     this.meteorological = config.meteorological;
     this.context = config.context;
     this.military = config.military;
+    this.modelPath = config.modelPath || null;
 
-    // Create the geometry and material for the sphere
+    if (this.modelPath) {
+      console.log("there is a path");
+      const loader = new GLTFLoader();
+      loader.load(
+        this.modelPath,
+        (gltf: GLTF) => {
+          console.log("glb file", gltf);
+          gltf.scene.scale.set(this.size, this.size, this.size);
+          this.instance.add(gltf.scene);
+        },
+        undefined,
+        (error) => console.error("Error loading GLB:", error)
+      );
+    }
+
+    // Create the default geometry and material for the sphere
     const geometry = new THREE.SphereGeometry(this.size, 32, 32);
     const shader = {
       vertex: `
@@ -123,7 +144,6 @@ export default class Planet {
         }
       `,
     };
-
     const material = new THREE.ShaderMaterial({
       vertexShader: shader.vertex,
       fragmentShader: shader.fragment,
@@ -133,14 +153,17 @@ export default class Planet {
         u_cameraDirection: { value: new THREE.Vector3(0, 0, 0) },
       },
     });
+    const basicMaterial = new THREE.MeshBasicMaterial({
+      transparent: true,
+      color: this.color,
+    });
+    basicMaterial.opacity = 0.01;
+    this.rayCacher = new THREE.Mesh(geometry, basicMaterial);
+    const ajustedSize = 2.5;
+    this.rayCacher.scale.set(ajustedSize, ajustedSize, ajustedSize);
+    this.instance.add(this.rayCacher);
 
-    this.mesh = new THREE.Mesh(geometry, material);
-    const ajustedSize = this.size * 1.5 + 1.5;
-    this.mesh.scale.set(ajustedSize, ajustedSize, ajustedSize);
     // Set the initial position of the sphere group
-    this.instance = new THREE.Group();
-    this.instance.add(this.mesh);
-    //this.instance.name = this.name;
     this.instance.name = "planet";
     this.instance.userData = this;
     this.instance.position.x = this.distance;
