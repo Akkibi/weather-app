@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useMemo, useCallback } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { Text, View, StyleSheet, Animated } from "react-native";
 import usePlanetStore from "@/stores/usePlanetStore";
 import useMeteoStore from "@/stores/useMeteoStore";
@@ -7,21 +7,32 @@ import { useScrambleText } from "@/hooks/useScrambleText";
 export default function Distance() {
   const { isFocus } = usePlanetStore();
   const { selectedCategory } = useMeteoStore();
-  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const contentFadeAnim = useRef(new Animated.Value(1)).current;
   const [currentTime, setCurrentTime] = useState("");
+  const [distanceTime, setDistanceTime] = useState("");
   const [dangerLevel, setDangerLevel] = useState(4);
   const [isTimeScrambling, setIsTimeScrambling] = useState(false);
   const [isDangerScrambling, setIsDangerScrambling] = useState(false);
 
   const scrambledTimeText = useScrambleText(`${currentTime}`, isTimeScrambling, {});
-  const scrambledDangerText = useScrambleText(`${dangerLevel}/10`, isDangerScrambling, {});
+  const scrambledDangerText = useScrambleText(`Niveau de risque - ${dangerLevel}/10`, isDangerScrambling, {});
+  const scrambledHomeTimeText = useScrambleText(`${currentTime}`, isTimeScrambling, {});
+  const scrambledHomeDangerText = useScrambleText(`Niveau de risque - ${dangerLevel}/10`, isDangerScrambling, {});
+  const scrambledHomeTitle = useScrambleText('Position actuelle', isDangerScrambling, {});
+  const scrambledTitle = useScrambleText("À propos de cette planète", isDangerScrambling, {});
 
   const updateTime = useCallback(() => {
     const now = new Date();
-    now.setHours(now.getHours() + 7);
-    now.setMinutes(now.getMinutes() + 45);
+    const distance = new Date();
+    distance.setHours(now.getHours() + 7);
+    distance.setMinutes(now.getMinutes() + 45);
     const hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getMinutes().toString().padStart(2, '0');
+
+    const distanceHours = distance.getHours().toString().padStart(2, '0');
+    const distanceMinutes = distance.getMinutes().toString().padStart(2, '0');
+    setDistanceTime(`${distanceHours}:${minutes}`);
     setCurrentTime(`${hours}:${minutes}`);
   }, []);
 
@@ -32,15 +43,15 @@ export default function Distance() {
 
   const scrambleValues = useCallback(() => {
     const random = Math.random();
-    if (random < 0.3) {
+    if (random < 0.5) {
       setIsTimeScrambling(true);
-      setTimeout(() => setIsTimeScrambling(false), 2000);
-    } else if (random < 0.6) {
+      setTimeout(() => setIsTimeScrambling(false), 1000);
+    } else if (random < 0.5) {
       setIsDangerScrambling(true);
       setDangerLevel(Math.floor(Math.random() * 10) + 1);
-      setTimeout(() => setIsDangerScrambling(false), 2000);
+      setTimeout(() => setIsDangerScrambling(false), 1000);
     }
-  }, []);
+  }, [contentFadeAnim]);
 
   useEffect(() => {
     const scrambleInterval = setInterval(scrambleValues, 5000);
@@ -48,23 +59,38 @@ export default function Distance() {
   }, [scrambleValues]);
 
   useEffect(() => {
-    const targetOpacity = isFocus && selectedCategory === null ? 1 : 0;
+    const targetOpacity = selectedCategory === null ? 1 : 0;
     Animated.timing(fadeAnim, {
       toValue: targetOpacity,
       duration: 500,
       useNativeDriver: true,
     }).start();
-  }, [isFocus, selectedCategory, fadeAnim]);
+  }, [selectedCategory, fadeAnim]);
 
-  if (!isFocus) return null;
+  const renderContent = () => {
+    if (isFocus) {
+      return (
+        <View style={styles.infoContainer}>
+          <Text style={styles.label}>{scrambledTitle}</Text>
+          <Text style={styles.label}>{scrambledDangerText}</Text>
+          <Text style={styles.label}>Arrivée - {scrambledTimeText}</Text>
+        </View>
+      );
+    }
+    return (
+      <View style={styles.infoContainer}>
+        <Text style={styles.label}>{scrambledHomeTitle}</Text>
+        <Text style={styles.label}>{scrambledHomeDangerText}</Text>
+        <Text style={styles.label}>Heure locale - {scrambledHomeTimeText}</Text>
+      </View>
+    );
+  };
 
   return (
     <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
-      <View style={styles.infoContainer}>
-        <Text style={styles.label}>À partir de votre {"\n"}position</Text>
-        <Text style={styles.label}>Danger - {scrambledDangerText}</Text>
-        <Text style={styles.label}>Arrivée - {scrambledTimeText}</Text>
-      </View>
+      <Animated.View style={{ opacity: contentFadeAnim }}>
+        {renderContent()}
+      </Animated.View>
     </Animated.View>
   );
 }
@@ -76,7 +102,7 @@ const styles = StyleSheet.create({
     left: 24,
   },
   infoContainer: {
-    gap: 0.5,
+    gap: 8,
     padding: 0,
   },
   label: {
@@ -84,7 +110,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     letterSpacing: 2,
     fontFamily: 'ClashDisplay',
-    opacity: 0.7,
+    opacity: 0.9,
   },
   value: {
     color: "#34C759",
