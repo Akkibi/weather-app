@@ -88,7 +88,7 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
           if (Math.abs(data.x) > rotationThreshold) {
             setIsMilitaryVisible(true);
           }
-          else if (Math.abs(data.z) > rotationThreshold) {
+          else if (data.z > rotationThreshold) {
             setIsInvasionModalVisible(true);
           }
         });

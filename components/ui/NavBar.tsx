@@ -4,6 +4,7 @@ import Svg, { Path, Rect } from 'react-native-svg';
 import usePlanetStore from "@/stores/usePlanetStore";
 import useMeteoStore from "@/stores/useMeteoStore";
 import { useScrambleText } from "@/hooks/useScrambleText";
+import { Gyroscope } from 'expo-sensors';
 
 interface NavBarProps {
   onPress: () => void;
@@ -17,9 +18,43 @@ export default function NavBar({onPress}: NavBarProps) {
 
   const [isScrambling, setIsScrambling] = useState(false);
   const [shouldScramble, setShouldScramble] = useState(false);
+  const [subscription, setSubscription] = useState(null);
+  const [lastTimestamp, setLastTimestamp] = useState(0);
 
   const planetName = planetFocused?.name ?? "TX 06";
   const scrambledName = useScrambleText(planetName, shouldScramble, {});
+
+  const startGyroscope = async () => {
+    try {
+      await Gyroscope.requestPermissionsAsync();
+      const gyroSubscription = Gyroscope.addListener((data) => {
+        const currentTime = Date.now();
+
+        if (currentTime - lastTimestamp > 500) {
+          const movementThreshold = 1.5;
+          if (data.y > movementThreshold) {
+            handleBack();
+            setLastTimestamp(currentTime);
+          }
+        }
+      });
+
+      await Gyroscope.setUpdateInterval(100);
+      setSubscription(gyroSubscription);
+    } catch (error) {
+      console.error('Failed to start gyroscope:', error);
+    }
+  };
+
+  const stopGyroscope = () => {
+    subscription?.remove();
+    setSubscription(null);
+  };
+
+  useEffect(() => {
+    startGyroscope();
+    return () => stopGyroscope();
+  }, [isFocus, selectedCategory]);
 
   useEffect(() => {
     setIsScrambling(false);
