@@ -6,8 +6,6 @@ import {
   FlatList,
   ViewToken,
   Text,
-  Modal,
-  TouchableOpacity,
 } from "react-native";
 import { Gyroscope } from 'expo-sensors';
 import usePlanetStore from "@/stores/usePlanetStore";
@@ -18,6 +16,7 @@ import { planetsArray, pointsArray } from "@/components/Experience/Utils/data";
 import { EventEmitter } from "./Experience/Utils/EventEmitter";
 import { useScrambleText } from "@/hooks/useScrambleText";
 import ModalInvade from "@/components/ModalInvade";
+import RadarDashboard from "./RadarDashboard";
 
 let ScreenHeight = Dimensions.get("window").height;
 
@@ -45,6 +44,7 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
   const [subscription, setSubscription] = useState<any>(null);
   const [currentVisibleCategory, setCurrentVisibleCategory] = useState<string | null>(null);
   const [isInvasionModalVisible, setIsInvasionModalVisible] = useState(false);
+  const [isRadarDashboardVisible, setRadarDashboardVisible] = useState(false);
 
   const categories: Category[] = useMemo(() => [
     {
@@ -158,9 +158,17 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
     );
   };
 
+  const handleRadarVisibility = () => {
+    setRadarDashboardVisible(true)
+    setCategory('military')
+    setIsMilitaryVisible(true);
+    setIsInvasionModalVisible(false)
+  }
+
   return (
     <>
-      <ModalInvade isVisible={isInvasionModalVisible} setVisible={setIsInvasionModalVisible} type="invade" onPress={()=>{console.log('INVAAADE!!!')}} />
+      <ModalInvade isVisible={isInvasionModalVisible} setVisible={setIsInvasionModalVisible} type="invade" onPress={()=>{handleRadarVisibility()}} />
+      <RadarDashboard imageSource={require('@/assets/images/radar_dashboard.png')} visible={isRadarDashboardVisible} onVisibilityChange={setRadarDashboardVisible} />
       {selectedCategory && (
         <View style={styles.container}>
           {currentVisibleCategory && (
@@ -187,6 +195,7 @@ export default function MeteoSection({ eventEmitter }: MeteoSectionProps) {
           />
         </View>
       )}
+
       {!selectedCategory &&
         categories.map((cat, index) => (
           <MeteoBtn
