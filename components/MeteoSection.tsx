@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "400",
     letterSpacing: 5,
-    fontFamily: 'ClashDisplayBold',
+    fontFamily: 'ClashDisplay',
     textTransform: 'uppercase',
     textAlign: 'center',
   },
