@@ -20,7 +20,7 @@ export default function Distance() {
   const scrambledHomeTimeText = useScrambleText(`${currentTime}`, isTimeScrambling, {});
   const scrambledHomeDangerText = useScrambleText(`Niveau de risque - ${dangerLevel}/10`, isDangerScrambling, {});
   const scrambledHomeTitle = useScrambleText('Position actuelle', isDangerScrambling, {});
-  const scrambledTitle = useScrambleText('Votre position', isDangerScrambling, {});
+  const scrambledTitle = useScrambleText("À propos de cette planète", isDangerScrambling, {});
 
   const updateTime = useCallback(() => {
     const now = new Date();
