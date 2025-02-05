@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Text, View, StyleSheet, Dimensions, Animated, ScrollView } from "react-native";
+import { Text, View, StyleSheet, Dimensions, Animated, ScrollView, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
 import usePlanetStore from "@/stores/usePlanetStore";
 import Planet from "./Experience/World/Planet";
 import { useScrambleText } from "@/hooks/useScrambleText";
@@ -15,7 +15,11 @@ interface MeteoDetailProps {
 export default function MeteoDetail({ category, planetData, isVisible = false }: MeteoDetailProps) {
   const { isFocus } = usePlanetStore();
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const scrollAnim = useRef(new Animated.Value(0)).current;
+  const scrollViewRef = useRef<ScrollView>(null);
   const [isScrambling, setIsScrambling] = useState(false);
+  const [hasUserScrolled, setHasUserScrolled] = useState(false);
+  const scrollTimeout = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     if (isVisible) {
@@ -34,6 +38,37 @@ export default function MeteoDetail({ category, planetData, isVisible = false }:
       }).start();
     }
   }, [isVisible]);
+
+  useEffect(() => {
+    if (isVisible && !hasUserScrolled) {
+      scrollTimeout.current = setTimeout(() => {
+        Animated.sequence([
+          Animated.timing(scrollAnim, {
+            toValue: -50,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(scrollAnim, {
+            toValue: 0,
+            duration: 1000,
+            useNativeDriver: true,
+          })
+        ]).start();
+      }, 5000);
+    }
+
+    return () => {
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+    };
+  }, [isVisible, hasUserScrolled]);
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (event.nativeEvent.contentOffset.y > 0 && !hasUserScrolled) {
+      setHasUserScrolled(true);
+    }
+  };
 
   if (!isFocus || !planetData) return null;
 
@@ -75,14 +110,15 @@ export default function MeteoDetail({ category, planetData, isVisible = false }:
     : [];
 
   return (
-    <ScrollView
-      style={styles.container}
+    <Animated.ScrollView
+      ref={scrollViewRef}
+      style={[styles.container, { transform: [{ translateY: scrollAnim }] }]}
       showsVerticalScrollIndicator={false}
       stickyHeaderIndices={[0]}
+      onScroll={handleScroll}
+      scrollEventThrottle={16}
     >
-
       <View style={styles.content}>
-
         {subcategories.map((subcategory, index) => (
           <Animated.View
             key={index}
@@ -97,14 +133,14 @@ export default function MeteoDetail({ category, planetData, isVisible = false }:
           </Animated.View>
         ))}
       </View>
-    </ScrollView>
+    </Animated.ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    display:  'flex',
+    display: 'flex',
     flexDirection: 'column',
     width: "100%",
     paddingVertical: 64,
