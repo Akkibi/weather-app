@@ -4,9 +4,9 @@ export const planetsArray = [
   {
     id: 1,
     name: "ParaIV",
-    size: 2,
+    size: 3,
     speed: 2,
-    distance: 5,
+    distance: 3,
     minTemperature: {
       title: 'Temperature Min.',
       value: -300
@@ -146,7 +146,7 @@ export const planetsArray = [
     name: "Hex",
     size: 3,
     speed: 2.91,
-    distance: 6,
+    distance: 4.5,
     minTemperature: {
       title: 'Temperature Min.',
       value: -300
@@ -281,9 +281,9 @@ export const planetsArray = [
   {
     id: 3,
     name: "Ell",
-    size: 2,
+    size: 3,
     speed: 1.62,
-    distance: 4,
+    distance: 6,
     minTemperature: {
       title: 'Temperature Min.',
       value: -300
@@ -410,9 +410,9 @@ export const planetsArray = [
   {
     id: 4,
     name: "FragVI",
-    size: 1,
+    size: 2.5,
     speed: 1.111,
-    distance: 3,
+    distance: 7.5,
     minTemperature: {
       title: 'Temperature Min.',
       value: -300
@@ -531,7 +531,7 @@ export const planetsArray = [
     name: "Tatooin",
     size: 3,
     speed: 2,
-    distance: 4,
+    distance: 9,
     temperature: {
       title: 'Temperature Min.',
       value: '15,1 MK'

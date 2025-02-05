@@ -132,16 +132,16 @@ export default class Sun {
             // Apply noise to base color
 
             vec3 baseColor = vec3(0.0, 0.0, 0.0);
-            if (true) {
+            if (false) {
                 baseColor = vec3(0.0,  0.3, 1.0);
                 baseColor += vec3(noise * 0.2, -noise, -noise * 0.75);
             } else {
-                baseColor = vec3(1.0, 0.5, 0.0);
+                baseColor = vec3(1.0, 0.25, 0.0);
                 baseColor += vec3(-noise * 0.5, -noise, noise * 0.2);
             }
 
             // Mix color based on Fresnel
-            vec3 mixColor = mix(baseColor, vec3(0.6, 0.6, 1.0), fresnel);
+            vec3 mixColor = mix(baseColor, vec3(1.0, 0.6, 0.6), fresnel);
             // vec3 mixColor = baseColor;
 
 
@@ -190,6 +190,6 @@ export default class Sun {
     // Update uniforms
     this.sun.material.uniforms.u_cameraDirection.value =
       cameraToSphereDirection;
-    this.sun.material.uniforms.u_time.value = time;
+    this.sun.material.uniforms.u_time.value = time / 5;
   }
 }
